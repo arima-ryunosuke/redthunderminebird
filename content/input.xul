@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="chrome://global/skin/global.css" type="text/css"?>
+
+<window onload="onLoad();" id="redthunderminebirdRedmineWindow" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul" title="Redmine設定">
+
+	<script type="text/javascript" src="chrome://redthunderminebird/content/input.js" />
+
+	<prefpane style="width:420px">
+		<label value="Redmine URL" />
+		<textbox id="redthunderminebird-redmine" />
+
+		<label value="REST API キー" />
+		<textbox id="redthunderminebird-apikey" />
+
+		<label value="非表示プロジェクト(idをカンマ区切り)" />
+		<textbox id="redthunderminebird-filter_project" />
+
+		<label value="表示フォルダ(正規表現)" />
+		<textbox id="redthunderminebird-filter_directory" />
+
+	</prefpane>
+
+	<hbox>
+		<spacer flex="1" />
+		<button label="OK" oncommand="onCommit();" />
+		<button label="キャンセル" oncommand="onCancel();" />
+	</hbox>
+
+</window>

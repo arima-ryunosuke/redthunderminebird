@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="chrome://global/skin/global.css" type="text/css"?>
+
+<window onload="onLoad();" id="redthunderminebirdPrefWindow" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul" title="設定">
+
+	<script type="text/javascript" src="chrome://redthunderminebird/content/options.js" />
+
+	<prefpane>
+		<button label="基本設定" oncommand="onRedmine();" style="width:80px;" />
+	</prefpane>
+
+	<separator class="groove" />
+
+	<prefpane id="advance_option">
+		<label class="header" value="入力のデフォルト値" />
+		<grid>
+			<columns>
+				<column flex="1" />
+				<column flex="8" />
+			</columns>
+
+			<rows>
+				<row>
+					<label value="トラッカー" />
+					<menulist id="redthunderminebird-default_tracker">
+						<menupopup>
+						</menupopup>
+					</menulist>
+				</row>
+				<row>
+					<label value="期日(日)" />
+					<box>
+						<textbox id="redthunderminebird-default_due" type="number" style="width:4em;text-align:right;" />
+					</box>
+				</row>
+				<row>
+					<label value="説明" />
+					<box>
+						<checkbox id="redthunderminebird-default_description" label="本文を引用化する" />
+					</box>
+				</row>
+			</rows>
+		</grid>
+
+		<separator class="groove" />
+
+		<label class="header" value="フォルダマッピング" />
+		<grid>
+			<columns>
+				<column flex="1" />
+				<column flex="8" />
+			</columns>
+
+			<rows id="directory_rows">
+			</rows>
+		</grid>
+	</prefpane>
+
+	<hbox>
+		<spacer flex="1" />
+		<button label="OK" oncommand="onCommit();" />
+		<button label="キャンセル" oncommand="onCancel();" />
+	</hbox>
+
+</window>

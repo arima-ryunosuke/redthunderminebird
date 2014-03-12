@@ -1,0 +1,3 @@
+content redthunderminebird content/
+resource redthunderminebird modules/
+overlay chrome://messenger/content/messenger.xul chrome://redthunderminebird/content/overlay.xul

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="chrome://global/skin/global.css" type="text/css"?>
+
+<window onload="onLoad();" id="redthunderminebirdPrefWindow" title="チケット" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+
+	<script type="text/javascript" src="chrome://redthunderminebird/content/creation.js" />
+
+	<grid style="width:640px;">
+		<columns>
+			<column flex="1" />
+			<column flex="8" />
+		</columns>
+
+		<rows>
+			<row>
+				<label value="プロジェクト" />
+				<menulist id="project_id" class="ticket_data">
+					<menupopup>
+					</menupopup>
+				</menulist>
+			</row>
+			<row>
+				<label value="トラッカー" />
+				<menulist id="tracker_id" class="ticket_data">
+					<menupopup>
+					</menupopup>
+				</menulist>
+			</row>
+			<row>
+				<label value="題名" />
+				<textbox id="subject" class="ticket_data" />
+			</row>
+			<row>
+				<label value="説明" />
+				<textbox id="description" multiline="true" rows="10" class="ticket_data" />
+			</row>
+			<row>
+				<label value="担当者" />
+				<menulist id="assigned_to_id" class="ticket_data">
+					<menupopup>
+					</menupopup>
+				</menulist>
+			</row>
+			<row>
+				<label value="期間(日)" />
+				<box>
+					<textbox id="due_length" class="ticket_data" type="number" style="width:4em;text-align:right;" />
+				</box>
+			</row>
+		</rows>
+	</grid>
+
+	<hbox>
+		<spacer flex="1" />
+		<button id="redthunderminebird-update" style="width:80px" label="作成" oncommand="onCreate();" />
+
+	</hbox>
+</window>
