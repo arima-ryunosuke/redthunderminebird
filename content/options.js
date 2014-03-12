@@ -5,30 +5,13 @@ load("resource://redthunderminebird/redmine.js", this);
 load("resource://redthunderminebird/utility.js", this);
 
 function _build() {
-	//ノードの子要素をすべて消すcloser
-	var removeChildren = function(node) {
-		for ( var i = node.childNodes.length - 1; i >= 0; i--)
-		{
-			node.removeChild(node.childNodes[i]);
-		}
-	};
-
-	// menuitemを追加するcloser
-	var appendMenuitem = function(node, value, label) {
-		var menuitem = document.createElement("menuitem");
-		menuitem.setAttribute('value', '' + value);
-		menuitem.setAttribute('label', '' + label);
-		node.appendChild(menuitem);
-		return menuitem;
-	};
-
 	//トラッカーselectboxのリフレッシュ
 	var holder = document.getElementById('redthunderminebird-default_tracker').childNodes[0];
-	removeChildren(holder);
+	utility.removeChildren(holder);
 	var trackers = redmine.trackers();
 	for ( var i = 0; i < trackers.length; i++)
 	{
-		appendMenuitem(holder, trackers[i].id, trackers[i].name);
+		utility.appendMenuitem(holder, trackers[i].id, trackers[i].name);
 	}
 
 	//アカウントのディレクトリ取得
@@ -64,7 +47,7 @@ function _build() {
 
 	//マッピングrowsのリフレッシュ
 	var holder = document.getElementById('directory_rows');
-	removeChildren(holder);
+	utility.removeChildren(holder);
 	var projects = redmine.projects();
 	for ( var k in folders)
 	{
@@ -82,16 +65,16 @@ function _build() {
 		//デフォルトだったら特殊なselectboxになる
 		if (k !== '')
 		{
-			appendMenuitem(menupopup, '', '(デフォルトに従う)');
+			utility.appendMenuitem(menupopup, '', '(デフォルトに従う)');
 		}
 
 		//プロジェクト分ループしてitemを追加
 		for ( var i in projects)
 		{
-			appendMenuitem(menupopup, projects[i].id, projects[i].fullname);
+			utility.appendMenuitem(menupopup, projects[i].id, projects[i].fullname);
 		}
 
-		//上下関係設定
+		//親子関係設定
 		menulist.appendChild(menupopup);
 		row.appendChild(label);
 		row.appendChild(menulist);

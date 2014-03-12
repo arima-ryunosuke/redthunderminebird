@@ -10,15 +10,6 @@ function byid(id) {
 };
 
 function onLoad() {
-	// menuitemを追加するcloser
-	var appendMenuitem = function(node, value, label) {
-		var menuitem = document.createElement("menuitem");
-		menuitem.setAttribute('value', '' + value);
-		menuitem.setAttribute('label', '' + label);
-		node.appendChild(menuitem);
-		return menuitem;
-	};
-
 	//アカウント一覧
 	var account_manager = Cc["@mozilla.org/messenger/account-manager;1"].getService(Ci.nsIMsgAccountManager);
 	var accounts = account_manager.accounts;
@@ -27,7 +18,7 @@ function onLoad() {
 		var account = accounts.queryElementAt(i, Ci.nsIMsgAccount);
 		var value = account.incomingServer.rootFolder.URI;
 		var name = account.incomingServer.prettyName;
-		appendMenuitem(byid('redthunderminebird-account').childNodes[0], value, name);
+		utility.appendMenuitem(byid('redthunderminebird-account').childNodes[0], value, name);
 	}
 
 	//読み込み

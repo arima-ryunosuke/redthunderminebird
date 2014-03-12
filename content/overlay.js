@@ -4,7 +4,6 @@ load("resource://redthunderminebird/preference.js", this);
 load("resource://redthunderminebird/redmine.js", this);
 load("resource://redthunderminebird/utility.js", this);
 
-
 function onLoad() {}
 
 function onDialog() {
