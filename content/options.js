@@ -31,11 +31,8 @@ function _build() {
 		appendMenuitem(holder, trackers[i].id, trackers[i].name);
 	}
 
-	//デフォルトアカウントのURI取得
-	var account_manager = Cc["@mozilla.org/messenger/account-manager;1"].getService(Ci.nsIMsgAccountManager);
-	var accountURI = account_manager.defaultAccount.incomingServer.rootFolder.URI;
-
-	//デフォルトアカウントのディレクトリ取得
+	//アカウントのディレクトリ取得
+	var accountURI = preference.getString('account');
 	var rdf_service = Cc['@mozilla.org/rdf/rdf-service;1'].getService(Ci.nsIRDFService);
 	var root_folder = rdf_service.GetResource(accountURI);
 	root_folder.QueryInterface(Ci.nsIMsgFolder);
@@ -125,7 +122,7 @@ function _build() {
 
 function onLoad() {
 	//初期表示時は保存されている情報が正しい時のみページ構築する
-	if (redmine.ping())
+	if (redmine.ping() && preference.getString('account') !== '')
 	{
 		_build();
 	}

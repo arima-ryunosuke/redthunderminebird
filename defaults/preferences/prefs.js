@@ -1,5 +1,6 @@
 pref("extensions.redthunderminebird.redmine", "http://");
 pref("extensions.redthunderminebird.apikey", "");
+pref("extensions.redthunderminebird.account", "");
 pref("extensions.redthunderminebird.directories", "{}");
 pref("extensions.redthunderminebird.default_tracker", "");
 pref("extensions.redthunderminebird.default_due", 7);

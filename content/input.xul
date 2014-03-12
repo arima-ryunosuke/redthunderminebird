@@ -12,6 +12,12 @@
 		<label value="REST API キー" />
 		<textbox id="redthunderminebird-apikey" />
 
+		<label value="アカウント" />
+		<menulist id="redthunderminebird-account">
+			<menupopup>
+			</menupopup>
+		</menulist>
+
 		<label value="非表示プロジェクト(idをカンマ区切り)" />
 		<textbox id="redthunderminebird-filter_project" />
 
