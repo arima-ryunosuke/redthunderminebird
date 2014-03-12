@@ -19,15 +19,14 @@ function onLoad() {
 		return menuitem;
 	};
 
+	//アカウント一覧
 	var account_manager = Cc["@mozilla.org/messenger/account-manager;1"].getService(Ci.nsIMsgAccountManager);
 	var accounts = account_manager.accounts;
 	for ( var i = 0; i < accounts.length; i++)
 	{
 		var account = accounts.queryElementAt(i, Ci.nsIMsgAccount);
 		var value = account.incomingServer.rootFolder.URI;
-		var name = account.incomingServer.realUsername;
-		if (name === 'nobody')
-			continue;
+		var name = account.incomingServer.prettyName;
 		appendMenuitem(byid('redthunderminebird-account').childNodes[0], value, name);
 	}
 
