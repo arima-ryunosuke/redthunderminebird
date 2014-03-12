@@ -36,7 +36,7 @@
 				<row>
 					<label value="説明" />
 					<box>
-						<checkbox id="redthunderminebird-default_description" label="本文を引用化する" />
+						<checkbox id="redthunderminebird-default_description" label="改行を保つ(改行にスペース2つを付加する)" />
 					</box>
 				</row>
 			</rows>
