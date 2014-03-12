@@ -51,7 +51,12 @@ function onLoad() {
 	defdata.due_length = preference.getInt('default_due');
 	if (preference.getBool('default_description'))
 	{
-		defdata.description = defdata.description.replace(/(\r\n)|(\r)|(\n)/g, '  \n');
+		defdata.description = defdata.description.replace(/^(.*)$/mg, function(m) {
+			if (m.charAt(0) == '>')
+				return m;
+			else
+				return m + '  ';
+		});
 	}
 
 	//初期データ投入
