@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?xml-stylesheet href="chrome://global/skin/global.css" type="text/css"?>
 
-<window onload="onLoad();" id="redthunderminebirdPrefWindow" title="チケット" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+<window onload="onLoad();onProject();" id="redthunderminebirdPrefWindow" title="チケット" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
 
 	<script type="text/javascript" src="chrome://redthunderminebird/content/creation.js" />
 
@@ -14,7 +14,7 @@
 		<rows>
 			<row>
 				<label value="プロジェクト" />
-				<menulist id="project_id" class="ticket_data">
+				<menulist id="project_id" class="ticket_data" oncommand="onProject();">
 					<menupopup>
 					</menupopup>
 				</menulist>
@@ -35,8 +35,15 @@
 				<textbox id="description" multiline="true" rows="10" class="ticket_data" />
 			</row>
 			<row>
-				<label value="担当者" />
+				<label value="担当者(管理者のみ)" />
 				<menulist id="assigned_to_id" class="ticket_data">
+					<menupopup>
+					</menupopup>
+				</menulist>
+			</row>
+			<row>
+				<label value="対象バージョン" />
+				<menulist id="fixed_version_id" class="ticket_data">
 					<menupopup>
 					</menupopup>
 				</menulist>

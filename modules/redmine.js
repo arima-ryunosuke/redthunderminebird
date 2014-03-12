@@ -21,7 +21,7 @@ var Redmine = function() {
 			request.setRequestHeader("Content-Type", "application/json");
 			request.send(JSON.stringify(data));
 
-			if (request.status >= 500)
+			if (request.status >= 300)
 				throw request;
 		}
 		catch (e)
@@ -107,6 +107,29 @@ var Redmine = function() {
 		return projects;
 	};
 
+	var members = {};
+	this.members = function(project_id) {
+		if (members[project_id] === undefined)
+		{
+			//取得(権限の関係で例外が飛びやすい)
+			try
+			{
+				var response = this.request('GET', 'projects/' + project_id + '/memberships.json', {});
+				members[project_id] = response.memberships;
+			}
+			catch (e)
+			{
+				//気休めに自分自身を入れておく
+				var myself = this.myself();
+				myself.name = myself.lastname;
+				members[project_id] = [ {
+					user : myself
+				} ];
+			}
+		}
+		return members[project_id];
+	};
+
 	var versions = {};
 	this.versions = function(project_id) {
 		if (versions[project_id] === undefined)
@@ -133,6 +156,7 @@ var Redmine = function() {
 		//キャッシュを殺す
 		myself = null;
 		projects = null;
+		members = null;
 		versions = null;
 		trackers = null;
 	};

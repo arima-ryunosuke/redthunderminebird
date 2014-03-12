@@ -4,20 +4,24 @@ load("resource://redthunderminebird/preference.js", this);
 load("resource://redthunderminebird/redmine.js", this);
 load("resource://redthunderminebird/utility.js", this);
 
+// menuitemを追加するcloser
+var addMenuitem = function(id, value, label) {
+	var menuitem = document.createElement("menuitem");
+	menuitem.setAttribute('value', value);
+	menuitem.setAttribute('label', label);
+	document.getElementById(id).childNodes[0].appendChild(menuitem);
+	return menuitem;
+};
+
+//ノードの子要素をすべて消すcloser
+var removeChildren = function(node) {
+	for ( var i = node.childNodes.length - 1; i >= 0; i--)
+	{
+		node.removeChild(node.childNodes[i]);
+	}
+};
+
 function onLoad() {
-	// menuitemを追加するcloser
-	var addMenuitem = function(id, value, label) {
-		var menuitem = document.createElement("menuitem");
-		menuitem.setAttribute('value', value);
-		menuitem.setAttribute('label', label);
-		document.getElementById(id).childNodes[0].appendChild(menuitem);
-		return menuitem;
-	};
-
-	//ユーザ一覧(現在のところ自分自身のみ)
-	var user = redmine.myself();
-	addMenuitem('assigned_to_id', user.id, user.lastname + user.firstname + '(※変更できません)');
-
 	//プロジェクト一覧
 	var projects = redmine.projects();
 	for ( var i = 0; i < projects.length; i++)
@@ -45,7 +49,6 @@ function onLoad() {
 
 	//初期データ取得
 	var defdata = window.arguments[0];
-	defdata.assigned_to_id = user.id;
 	defdata.project_id = project_id;
 	defdata.tracker_id = preference.getString('default_tracker');
 	defdata.due_length = preference.getInt('default_due');
@@ -66,6 +69,36 @@ function onLoad() {
 		var id = elements[i].getAttribute('id');
 		if (defdata[id] !== undefined)
 			elements[i].value = defdata[id];
+	}
+}
+
+function onProject() {
+	//デフォルト設定用
+	var user = redmine.myself();
+	var project_id = document.getElementById('project_id').value;
+
+	//担当者再構築
+	var node = document.getElementById('assigned_to_id').childNodes[0];
+	removeChildren(node);
+	addMenuitem('assigned_to_id', user.id, '<< 自分 >>');
+	var members = redmine.members(project_id);
+	for ( var i = 0; i < members.length; i++)
+	{
+		var member = members[i].user;
+		if (user.id == member.id)
+			continue;
+		addMenuitem('assigned_to_id', member.id, member.name);
+	}
+	document.getElementById('assigned_to_id').value = user.id;
+
+	//対象バージョン再構築
+	var node = document.getElementById('fixed_version_id').childNodes[0];
+	removeChildren(node);
+	var versions = redmine.versions(project_id);
+	for ( var i = 0; i < versions.length; i++)
+	{
+		var version = versions[i];
+		addMenuitem('fixed_version_id', version.id, version.name);
 	}
 }
 
