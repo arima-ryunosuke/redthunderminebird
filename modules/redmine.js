@@ -18,8 +18,8 @@ var Redmine = function() {
 		try
 		{
 			request.open(method, url, false);
-			request.setRequestHeader("Content-Type", "text/xml");
-			request.send(utility.jsontoxml(data));
+			request.setRequestHeader("Content-Type", "application/json");
+			request.send(JSON.stringify(data));
 
 			if (request.status >= 500)
 				throw request;
@@ -29,8 +29,8 @@ var Redmine = function() {
 			throw request;
 		}
 
-		//基本的にはxmlが返るのでjsonにしてから返却する
-		return utility.xmltojson(request.responseText);
+		//オブジェクトにして返却
+		return JSON.parse(request.responseText);
 	};
 
 	this.ping = function(redmine, apikey) {
@@ -40,8 +40,8 @@ var Redmine = function() {
 		if (apikey === undefined)
 			apikey = preference.getString("apikey");
 
-		//users/current.xmlをもって疎通確認とする
-		var url = redmine + '/users/current.xml?key=' + apikey;
+		//users/current.jsonをもって疎通確認とする
+		var url = redmine + '/users/current.json?key=' + apikey;
 
 		//リクエストを投げる
 		var result = null;
@@ -49,7 +49,7 @@ var Redmine = function() {
 		try
 		{
 			request.open('HEAD', url, false);
-			request.setRequestHeader("Content-Type", "text/xml");
+			request.setRequestHeader("Content-Type", "application/json");
 			request.send();
 
 			result = (request.status == 200);
@@ -62,7 +62,7 @@ var Redmine = function() {
 	};
 
 	this.create = function(ticket) {
-		return this.request('POST', 'issues.xml', {
+		return this.request('POST', 'issues.json', {
 			issue : ticket,
 		});
 	};
@@ -72,7 +72,7 @@ var Redmine = function() {
 		if (myself === null)
 		{
 			//取得
-			var response = this.request('GET', 'users/current.xml', {});
+			var response = this.request('GET', 'users/current.json', {});
 			myself = response.user;
 		}
 		return myself;
@@ -83,8 +83,8 @@ var Redmine = function() {
 		if (projects === null)
 		{
 			//取得
-			var response = this.request('GET', 'projects.xml', {});
-			projects = response.projects.project;
+			var response = this.request('GET', 'projects.json', {});
+			projects = response.projects;
 
 			//識別子でフィルタ
 			var filter = preference.getString("filter_project").replace(/\s/g, '').split(',');
@@ -107,13 +107,24 @@ var Redmine = function() {
 		return projects;
 	};
 
+	var versions = {};
+	this.versions = function(project_id) {
+		if (versions[project_id] === undefined)
+		{
+			//取得
+			var response = this.request('GET', 'projects/' + project_id + '/versions.json', {});
+			versions[project_id] = response.versions;
+		}
+		return versions[project_id];
+	};
+
 	var trackers = null;
 	this.trackers = function() {
 		if (trackers === null)
 		{
 			//取得
-			var response = this.request('GET', 'trackers.xml', {});
-			trackers = response.trackers.tracker;
+			var response = this.request('GET', 'trackers.json', {});
+			trackers = response.trackers;
 		}
 		return trackers;
 	};
@@ -122,6 +133,7 @@ var Redmine = function() {
 		//キャッシュを殺す
 		myself = null;
 		projects = null;
+		versions = null;
 		trackers = null;
 	};
 };

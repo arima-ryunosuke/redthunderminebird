@@ -13,6 +13,9 @@ var consoleService = Cc["@mozilla.org/consoleservice;1"].getService(Ci.nsIConsol
 
 //コンソール書き出し
 var log = function(message) {
+	if (message === undefined)
+		message = '' + message;
+
 	if (message instanceof Object)
 	{
 		consoleService.logStringMessage(JSON.stringify(message, null, 2));
