@@ -12,22 +12,26 @@ var Cu = Components.utils;
 var consoleService = Cc["@mozilla.org/consoleservice;1"].getService(Ci.nsIConsoleService);
 
 //コンソール書き出し
-var log = function(message) {
-	if (message === undefined)
-		message = '' + message;
+var log = function() {
+	if (!DEBUG)
+		return;
 
-	if (message instanceof Object)
+	var message = '';
+	for ( var i = 0; i < arguments.length; i++)
 	{
-		consoleService.logStringMessage(JSON.stringify(message, null, 2));
+		if (arguments[i] === undefined)
+			arguments[i] = typeof (arguments[i]);
+
+		if (typeof (arguments[i]) == 'string')
+		{
+			message += arguments[i];
+		}
+		else
+		{
+			message += JSON.stringify(arguments[i], null, 2);
+		}
 	}
-	else if (message instanceof String)
-	{
-		consoleService.logStringMessage(message);
-	}
-	else
-	{
-		consoleService.logStringMessage(message);
-	}
+	consoleService.logStringMessage(message);
 };
 
 //キャッシュ無効モジュール読み込み

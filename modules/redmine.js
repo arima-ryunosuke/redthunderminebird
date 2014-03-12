@@ -6,20 +6,30 @@ load("resource://redthunderminebird/preference.js", this);
 load("resource://redthunderminebird/utility.js", this);
 
 var Redmine = function() {
+	log('Redmine constractor');
 
 	this.request = function(method, path, data) {
+		log('request:', path);
+
 		//設定値と引数からURL生成
 		var hostname = preference.getString("redmine");
 		var apikey = preference.getString("apikey");
 		var url = hostname + '/' + path + '?key=' + apikey;
+		var body = JSON.stringify(data);
 
 		//リクエストを投げる
 		var request = Cc["@mozilla.org/xmlextras/xmlhttprequest;1"].createInstance();
 		try
 		{
+			if (body.length < 2048)
+				log('request data:', url, body);
+
 			request.open(method, url, false);
 			request.setRequestHeader("Content-Type", "application/json");
-			request.send(JSON.stringify(data));
+			request.send(body);
+
+			log('request status:', request.status);
+			log('request response:', request.responseText);
 
 			if (request.status >= 300)
 				throw request;
@@ -62,6 +72,8 @@ var Redmine = function() {
 	};
 
 	this.create = function(ticket) {
+		log('create:', ticket);
+
 		return this.request('POST', 'issues.json', {
 			issue : ticket,
 		});
@@ -69,6 +81,8 @@ var Redmine = function() {
 
 	var myself = null;
 	this.myself = function() {
+		log('myself');
+
 		if (myself === null)
 		{
 			//取得
@@ -80,6 +94,7 @@ var Redmine = function() {
 
 	var projects = null;
 	this.projects = function() {
+		log('projects');
 		if (projects === null)
 		{
 			//取得
@@ -109,6 +124,7 @@ var Redmine = function() {
 
 	var members = {};
 	this.members = function(project_id) {
+		log('members:', project_id);
 		if (members[project_id] === undefined)
 		{
 			//取得(権限の関係で例外が飛びやすい)
@@ -132,6 +148,7 @@ var Redmine = function() {
 
 	var versions = {};
 	this.versions = function(project_id) {
+		log('versions:', project_id);
 		if (versions[project_id] === undefined)
 		{
 			//取得
@@ -143,6 +160,7 @@ var Redmine = function() {
 
 	var trackers = null;
 	this.trackers = function() {
+		log('trackers');
 		if (trackers === null)
 		{
 			//取得
@@ -153,6 +171,7 @@ var Redmine = function() {
 	};
 
 	this.recache = function() {
+		log('recache');
 		//キャッシュを殺す
 		myself = null;
 		projects = null;
