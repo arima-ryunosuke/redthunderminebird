@@ -49,9 +49,12 @@
 				</menulist>
 			</row>
 			<row>
-				<label value="期間(日)" />
+				<label value="その他" />
 				<box>
+					<label value="期間(日)" />
 					<textbox id="due_length" class="ticket_data" type="number" style="width:4em;text-align:right;" />
+
+					<checkbox id="is_private" class="ticket_data" label="プライベート" />
 				</box>
 			</row>
 		</rows>

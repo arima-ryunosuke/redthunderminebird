@@ -118,7 +118,10 @@ function onCreate() {
 	for ( var i = 0; i < elements.length; i++)
 	{
 		var id = elements[i].getAttribute('id');
-		data[id] = elements[i].value;
+		if (elements[i].tagName == "checkbox")
+			data[id] = elements[i].checked;
+		else
+			data[id] = elements[i].value;
 	}
 
 	//コールバック呼び出し(チケット登録できたらtrue)
