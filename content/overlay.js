@@ -51,8 +51,14 @@ function onDialog() {
 		//issueがある=すべて成功した
 		if (result.issue !== undefined)
 		{
+			//@todo apiキーを付加しないとリダイレクトされてしまう
+			//・オープン時のクッキー指定ミス？
+			//・redmineのバグ？（http://www.redmine.org/issues/15926）
 			var url = preference.getString("redmine") + '/issues/' + result.issue.id;
-			alert('作成しました：' + url);
+			window.openDialog("chrome://redthunderminebird/content/complete.xul", "completeDialog", "chrome,centerscreen,modal", {
+				label : url,
+				value : url + '?key=' + preference.getString("apikey"),
+			});
 			return true;
 		}
 		//errorsがある=リクエストは成功したが、バリデーションエラーがある
