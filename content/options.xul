@@ -45,15 +45,17 @@
 		<separator class="groove" />
 
 		<label class="header" value="フォルダマッピング" />
-		<grid>
-			<columns>
-				<column flex="1" />
-				<column flex="8" />
-			</columns>
+		<vbox style="overflow:auto;max-height:460px;">
+			<grid>
+				<columns>
+					<column flex="1" />
+					<column flex="8" />
+				</columns>
 
-			<rows id="directory_rows">
-			</rows>
-		</grid>
+				<rows id="directory_rows">
+				</rows>
+			</grid>
+		</vbox>
 	</prefpane>
 
 	<hbox>
