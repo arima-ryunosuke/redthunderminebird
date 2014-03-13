@@ -8,7 +8,10 @@ ThunderbirdのメッセージからRedmineチケットを登録するアドオ�
 
 xpi形式であれば「アドオンマネージャ」から「ファイルからアドオンをインストール」を選択します。
 
-バラのファイル群であればzip圧縮してxpiにするか、Thunderbirdのextensionsフォルダに`redthunderminebird@headjapan.com`というファイルを作り、中に
+バラのファイル群であれば必要そうなファイルをzip圧縮して拡張子をxpiに変更します。  
+その際modules/common.jsの`DEBUG`変数をfalseに設定して下さい。出ないとメモリリークする上リクエストが飛びまくります。
+
+内部を弄りたいのであればThunderbirdのextensionsフォルダに`redthunderminebird@ryunosuke.arima`というファイルを作り、中に
 
     path/to/addon-dir
 
@@ -17,7 +20,7 @@ xpi形式であれば「アドオンマネージャ」から「ファイルか�
 
 ## デバッグ
 
-上記のファイル群インストールにおいて、`modules/common.js`のDEBUG変数をtrueにするとデバッグモードで起動します。  
+上記のファイル群インストールにおいて、`modules/common.js`の`DEBUG`変数をtrueにするとデバッグモードで起動します。  
 デバッグモードでは
 
 * modules以下のファイルの変更が即時反映される(common自体は対象外)
