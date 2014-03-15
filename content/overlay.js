@@ -64,7 +64,7 @@ function onDialog() {
 		//errorsがある=リクエストは成功したが、バリデーションエラーがある
 		else if (result.errors !== undefined)
 		{
-			alert(result.errors.error.join('\n'));
+			alert(result.errors.join('\n'));
 			return false;
 		}
 		//htmlがある=リクエストが失敗した

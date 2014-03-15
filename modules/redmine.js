@@ -8,30 +8,49 @@ load("resource://redthunderminebird/utility.js", this);
 var Redmine = function() {
 	log('Redmine constractor');
 
-	this.request = function(method, path, data) {
-		log('request:', path);
+	this.request = function(method, path, data, type) {
+		log('request:', method, path);
 
 		//設定値と引数からURL生成
 		var hostname = preference.getString("redmine");
 		var apikey = preference.getString("apikey");
 		var url = hostname + '/' + path + '?key=' + apikey;
-		var body = JSON.stringify(data);
+
+		//コンテントタイプはデフォルトでjson
+		if (type === undefined)
+			type = 'application/json';
+
+		//リクエストボディ生成
+		var body = "";
+		if (data !== undefined)
+		{
+			switch (type)
+			{
+				case 'application/json':
+					body = JSON.stringify(data);
+					break;
+				case 'application/octet-stream':
+					body = data;
+					break;
+				default:
+					throw 'undefined content-type';
+			}
+		}
 
 		//リクエストを投げる
 		var request = Cc["@mozilla.org/xmlextras/xmlhttprequest;1"].createInstance();
 		try
 		{
-			if (body.length < 2048)
-				log('request data:', url, body);
-
+			log('request request:', url);
+			
 			request.open(method, url, false);
-			request.setRequestHeader("Content-Type", "application/json");
+			request.setRequestHeader("Content-Type", type);
 			request.send(body);
 
 			log('request status:', request.status);
 			log('request response:', request.responseText);
 
-			if (request.status >= 300)
+			if (request.status >= 300 && request.status != 422)
 				throw request;
 		}
 		catch (e)
@@ -44,31 +63,39 @@ var Redmine = function() {
 	};
 
 	this.ping = function(redmine, apikey) {
-		//省略時は設定値を使用する
-		if (redmine === undefined)
-			redmine = preference.getString("redmine");
-		if (apikey === undefined)
-			apikey = preference.getString("apikey");
+		//退避
+		var _redmine = preference.getString("redmine");
+		var _apikey = preference.getString("apikey");
 
-		//users/current.jsonをもって疎通確認とする
-		var url = redmine + '/users/current.json?key=' + apikey;
+		//上書き
+		if (redmine !== undefined)
+			preference.setString("redmine", redmine);
+		if (apikey !== undefined)
+			preference.setString("apikey", apikey);
 
-		//リクエストを投げる
-		var result = null;
-		var request = Cc["@mozilla.org/xmlextras/xmlhttprequest;1"].createInstance();
+		//確認
+		var result = true;
 		try
 		{
-			request.open('HEAD', url, false);
-			request.setRequestHeader("Content-Type", "application/json");
-			request.send();
-
-			result = (request.status == 200);
+			//REST APIの対応可否やバージョンチェックをした方がいい
+			this.request('GET', '/users/current.json');
 		}
 		catch (e)
 		{
 			result = false;
 		}
+
+		//復元
+		preference.setString("redmine", _redmine);
+		preference.setString("apikey", _apikey);
+		
 		return result;
+	};
+
+	this.upload = function(data) {
+		log('upload:', data.length);
+
+		return this.request('POST', 'uploads.json', data, 'application/octet-stream');
 	};
 
 	this.create = function(ticket) {
@@ -86,7 +113,7 @@ var Redmine = function() {
 		if (myself === null)
 		{
 			//取得
-			var response = this.request('GET', 'users/current.json', {});
+			var response = this.request('GET', 'users/current.json');
 			myself = response.user;
 		}
 		return myself;
@@ -98,7 +125,7 @@ var Redmine = function() {
 		if (projects === null)
 		{
 			//取得
-			var response = this.request('GET', 'projects.json', {});
+			var response = this.request('GET', 'projects.json');
 			projects = response.projects;
 
 			//識別子でフィルタ
@@ -130,7 +157,7 @@ var Redmine = function() {
 			//取得(権限の関係で例外が飛びやすい)
 			try
 			{
-				var response = this.request('GET', 'projects/' + project_id + '/memberships.json', {});
+				var response = this.request('GET', 'projects/' + project_id + '/memberships.json');
 				members[project_id] = response.memberships;
 			}
 			catch (e)
@@ -152,7 +179,7 @@ var Redmine = function() {
 		if (versions[project_id] === undefined)
 		{
 			//取得
-			var response = this.request('GET', 'projects/' + project_id + '/versions.json', {});
+			var response = this.request('GET', 'projects/' + project_id + '/versions.json');
 			versions[project_id] = response.versions;
 		}
 		return versions[project_id];
@@ -164,7 +191,7 @@ var Redmine = function() {
 		if (trackers === null)
 		{
 			//取得
-			var response = this.request('GET', 'trackers.json', {});
+			var response = this.request('GET', 'trackers.json');
 			trackers = response.trackers;
 		}
 		return trackers;
