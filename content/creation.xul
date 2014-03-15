@@ -49,11 +49,18 @@
 				</menulist>
 			</row>
 			<row>
+				<label value="期間" />
+
+				<box>
+					<label value="開始日" />
+					<datepicker id="start_date" type="popup" class="ticket_data" firstdayofweek="1" />
+					<label value="期日" />
+					<datepicker id="due_date" type="popup" class="ticket_data" firstdayofweek="1" />
+				</box>
+			</row>
+			<row>
 				<label value="その他" />
 				<box>
-					<label value="期間(日)" />
-					<textbox id="due_length" class="ticket_data" type="number" style="width:4em;text-align:right;" />
-
 					<checkbox id="is_private" class="ticket_data" label="プライベート" />
 					<checkbox id="is_attachment" label="添付ファイルを含める" />
 				</box>

@@ -37,7 +37,9 @@ function onLoad() {
 	var defdata = window.arguments[0];
 	defdata.project_id = project_id;
 	defdata.tracker_id = preference.getString('default_tracker');
-	defdata.due_length = preference.getInt('default_due');
+	var due_length = parseInt(preference.getInt('default_due'));
+	if (!isNaN(due_length) && due_length > 0)
+		defdata.due_date = utility.formatDate(new Date(), due_length);
 	if (preference.getBool('default_description'))
 	{
 		defdata.description = defdata.description.replace(/^(.*)$/mg, function(m) {
@@ -94,7 +96,7 @@ function onCreate() {
 		var data = {
 			uploads : [],
 		};
-		
+
 		var length = document.getElementById('is_attachment').checked ? mimemessage.allAttachments.length : 0;
 		for ( var i = 0; i < length; i++)
 		{
@@ -114,7 +116,7 @@ function onCreate() {
 			var buffer = new Int8Array(bytes);
 			istream.close();
 			bstream.close();
-			
+
 			//ファイルを登録してtokenを取得
 			var result = redmine.upload(buffer);
 			log(result.upload.token);
@@ -128,14 +130,6 @@ function onCreate() {
 			};
 			data.uploads.push(upload);
 		}
-
-		//開始日時
-		data.start_date = utility.formatDate(new Date());
-
-		//指定されているなら終了日時
-		var due_length = parseInt(document.getElementById('due_length').value);
-		if (!isNaN(due_length) && due_length > 0)
-			data.due_date = utility.formatDate(new Date(), due_length);
 
 		//form data → json object
 		var elements = document.getElementsByClassName('ticket_data');
