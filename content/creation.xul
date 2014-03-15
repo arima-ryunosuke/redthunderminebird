@@ -55,6 +55,7 @@
 					<textbox id="due_length" class="ticket_data" type="number" style="width:4em;text-align:right;" />
 
 					<checkbox id="is_private" class="ticket_data" label="プライベート" />
+					<checkbox id="is_attachment" label="添付ファイルを含める" />
 				</box>
 			</row>
 		</rows>

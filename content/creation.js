@@ -1,3 +1,6 @@
+Components.utils.import("resource://gre/modules/Services.jsm");
+Components.utils.import("resource:///modules/gloda/mimemsg.js");
+
 Components.utils.import("resource://redthunderminebird/common.js");
 
 load("resource://redthunderminebird/preference.js", this);
@@ -84,28 +87,69 @@ function onProject() {
 }
 
 function onCreate() {
-	//開始日時
-	var data = {
-		start_date : utility.formatDate(new Date()),
-	};
+	//MIMEメッセージ変換
+	MsgHdrToMimeMessage(window.opener.gFolderDisplay.selectedMessage, null, function(message, mimemessage) {
 
-	//指定されているなら終了日時
-	var due_length = parseInt(document.getElementById('due_length').value);
-	if (!isNaN(due_length) && due_length > 0)
-		data.due_date = utility.formatDate(new Date(), due_length);
+		//宣言と添付ファイル
+		var data = {
+			uploads : [],
+		};
+		
+		var length = document.getElementById('is_attachment').checked ? mimemessage.allAttachments.length : 0;
+		for ( var i = 0; i < length; i++)
+		{
+			var attachment = mimemessage.allAttachments[i];
 
-	//form data → json object
-	var elements = document.getElementsByClassName('ticket_data');
-	for ( var i = 0; i < elements.length; i++)
-	{
-		var id = elements[i].getAttribute('id');
-		if (elements[i].tagName == "checkbox")
-			data[id] = elements[i].checked;
-		else
-			data[id] = elements[i].value;
-	}
+			//添付ファイルストリーム
+			// declare?
+			// https://developer.mozilla.org/en-US/docs/XPCOM_Interface_Reference/nsIChannel#open()
+			var uri = Services.io.newURI(attachment.url, null, null);
+			var channel = Services.io.newChannelFromURI(uri);
+			var istream = channel.open();
+			var bstream = Cc["@mozilla.org/binaryinputstream;1"].createInstance(Ci.nsIBinaryInputStream);
+			bstream.setInputStream(istream);
 
-	//コールバック呼び出し(チケット登録できたらtrue)
-	if (window.arguments[1](data))
-		close();
+			//ストリームからバイナリの読み込み
+			var bytes = bstream.readByteArray(bstream.available());
+			var buffer = new Int8Array(bytes);
+			istream.close();
+			bstream.close();
+			
+			//ファイルを登録してtokenを取得
+			var result = redmine.upload(buffer);
+			log(result.upload.token);
+
+			//アップロードパラメータの追加
+			var upload = {
+				token : result.upload.token,
+				filename : attachment.name,
+				content_type : attachment.contentType,
+				description : ' ',
+			};
+			data.uploads.push(upload);
+		}
+
+		//開始日時
+		data.start_date = utility.formatDate(new Date());
+
+		//指定されているなら終了日時
+		var due_length = parseInt(document.getElementById('due_length').value);
+		if (!isNaN(due_length) && due_length > 0)
+			data.due_date = utility.formatDate(new Date(), due_length);
+
+		//form data → json object
+		var elements = document.getElementsByClassName('ticket_data');
+		for ( var i = 0; i < elements.length; i++)
+		{
+			var id = elements[i].getAttribute('id');
+			if (elements[i].tagName == "checkbox")
+				data[id] = elements[i].checked;
+			else
+				data[id] = elements[i].value;
+		}
+
+		//コールバック呼び出し(チケット登録できたらtrue)
+		if (window.arguments[1](data))
+			close();
+	});
 }
