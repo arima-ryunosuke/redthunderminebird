@@ -61,6 +61,7 @@ function _build() {
 		label.setAttribute('value', folders[k]);
 		menulist.setAttribute('class', 'directory_data');
 		menulist.setAttribute('name', k);
+		row.setAttribute('align', 'center');
 
 		//デフォルトだったら特殊なselectboxになる
 		if (k !== '')

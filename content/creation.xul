@@ -12,53 +12,53 @@
 		</columns>
 
 		<rows>
-			<row>
+			<row align="center">
 				<label value="プロジェクト" />
 				<menulist id="project_id" class="ticket_data" oncommand="onProject();">
 					<menupopup>
 					</menupopup>
 				</menulist>
 			</row>
-			<row>
+			<row align="center">
 				<label value="トラッカー" />
 				<menulist id="tracker_id" class="ticket_data">
 					<menupopup>
 					</menupopup>
 				</menulist>
 			</row>
-			<row>
+			<row align="center">
 				<label value="題名" />
 				<textbox id="subject" class="ticket_data" />
 			</row>
-			<row>
+			<row align="center">
 				<label value="説明" />
 				<textbox id="description" multiline="true" rows="10" class="ticket_data" />
 			</row>
-			<row>
+			<row align="center">
 				<label value="担当者(管理者のみ)" />
 				<menulist id="assigned_to_id" class="ticket_data">
 					<menupopup>
 					</menupopup>
 				</menulist>
 			</row>
-			<row>
+			<row align="center">
 				<label value="対象バージョン" />
 				<menulist id="fixed_version_id" class="ticket_data">
 					<menupopup>
 					</menupopup>
 				</menulist>
 			</row>
-			<row>
+			<row align="center">
 				<label value="期間" />
 
-				<box>
+				<box align="center">
 					<label value="開始日" />
 					<datepicker id="start_date" type="popup" class="ticket_data" firstdayofweek="1" />
 					<label value="期日" />
 					<datepicker id="due_date" type="popup" class="ticket_data" firstdayofweek="1" />
 				</box>
 			</row>
-			<row>
+			<row align="center">
 				<label value="その他" />
 				<box>
 					<checkbox id="is_private" class="ticket_data" label="プライベート" />
