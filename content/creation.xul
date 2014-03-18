@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?xml-stylesheet href="chrome://global/skin/global.css" type="text/css"?>
 
-<window onload="onLoad();onProject();" id="redthunderminebirdPrefWindow" title="チケット" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+<window onload="onLoad();onProject();" id="redthunderminebirdPrefWindow" title="チケット作成" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
 
 	<script type="text/javascript" src="chrome://redthunderminebird/content/creation.js" />
 
@@ -70,7 +70,7 @@
 
 	<hbox>
 		<spacer flex="1" />
-		<button id="redthunderminebird-update" style="width:80px" label="作成" oncommand="onCreate();" />
+		<button style="width:80px" label="作成" oncommand="onCreate();" />
 
 	</hbox>
 </window>

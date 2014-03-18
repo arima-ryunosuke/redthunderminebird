@@ -6,7 +6,8 @@
 	<script type="text/javascript" src="chrome://redthunderminebird/content/overlay.js" />
 
 	<popup id="mailContext">
-		<menuitem label="Redmineチケット作成" oncommand="onDialog();" />
+		<menuitem label="Redmineチケット作成" oncommand="onCreate();" />
+		<menuitem label="Redmineチケット更新" oncommand="onUpdate();" />
 	</popup>
 
 </overlay>

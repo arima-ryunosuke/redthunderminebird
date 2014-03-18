@@ -7,7 +7,7 @@
 	<script type="text/javascript" src="chrome://redthunderminebird/content/complete.js" />
 
 	<vbox>
-		<label value="作成しました" />
+		<label id="redthunderminebird-title" value="" />
 		<label id="redthunderminebird-link" class="text-link" value="" onclick="onTicket();" />
 	</vbox>
 

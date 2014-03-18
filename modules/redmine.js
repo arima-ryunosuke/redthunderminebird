@@ -20,9 +20,15 @@ var Redmine = function() {
 		if (type === undefined)
 			type = 'application/json';
 
+		//GETはクエリ化する
+		if (method == 'GET' && data !== undefined)
+		{
+			url += utility.jsontoquery(data);
+		}
+
 		//リクエストボディ生成
 		var body = "";
-		if (data !== undefined)
+		if (method != 'GET' && data !== undefined)
 		{
 			switch (type)
 			{
@@ -42,7 +48,7 @@ var Redmine = function() {
 		try
 		{
 			logger.debug('request request:', url);
-			
+
 			request.open(method, url, false);
 			request.setRequestHeader("Content-Type", type);
 			request.send(body);
@@ -58,8 +64,12 @@ var Redmine = function() {
 			throw request;
 		}
 
-		//オブジェクトにして返却
-		return JSON.parse(request.responseText);
+		//文字列なら(多分JSON文字列なので)オブジェクトにして返却
+		var result = request.responseText;
+		if (result != 0)
+			result = JSON.parse(result);
+
+		return result;
 	};
 
 	this.ping = function(redmine, apikey) {
@@ -88,7 +98,7 @@ var Redmine = function() {
 		//復元
 		preference.setString("redmine", _redmine);
 		preference.setString("apikey", _apikey);
-		
+
 		return result;
 	};
 
@@ -104,6 +114,32 @@ var Redmine = function() {
 		return this.request('POST', 'issues.json', {
 			issue : ticket,
 		});
+	};
+
+	this.update = function(ticket) {
+		logger.debug('update:', ticket);
+
+		return this.request('PUT', 'issues/' + ticket.id + '.json', {
+			issue : ticket,
+		});
+	};
+
+	this.ticket = function(id) {
+		logger.debug('ticket:', id);
+
+		//取得
+		var response = this.request('GET', 'issues/' + id + '.json');
+		return response.issue;
+	};
+
+	this.tickets = function(project_id, limit) {
+		logger.debug('tickets:', project_id, limit);
+
+		//取得
+		var response = this.request('GET', 'projects/' + project_id + '/issues.json', {
+			limit : limit,
+		});
+		return response.issues;
 	};
 
 	var myself = null;

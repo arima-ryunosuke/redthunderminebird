@@ -4,31 +4,18 @@ load("resource://redthunderminebird/preference.js", this);
 load("resource://redthunderminebird/redmine.js", this);
 load("resource://redthunderminebird/utility.js", this);
 
-function onLoad() {}
+function getMessageData() {
+	//件名とボディ
+	var message = gFolderDisplay.selectedMessage;
 
-function onDialog() {
-	//redmineに接続できないならどうしようもない
-	if (!redmine.ping())
-	{
-		alert('Redmineの設定がされていません');
-		return;
-	}
+	var title = message.mime2DecodedSubject;
 
-	//メッセージペインから件名と本文を取得
-	var messagepane = document.getElementById('messagepane');
-	var title = messagepane.contentDocument.getElementsByTagName('title')[0];
-	var body = messagepane.contentDocument.getElementsByTagName('body')[0];
-
-	//選択メッセージなし
-	if (!(title && body))
-	{
-		alert('メッセージが選択されていません');
-		return;
-	}
-
-	//文字列抽出
-	title = title.textContent;
-	body = body.textContent;
+	var muri = message.folder.getUriForMsg(message);
+	var messenger = Cc["@mozilla.org/messenger;1"].createInstance(Ci.nsIMessenger);
+	var mservice = messenger.messageServiceFromURI(muri);
+	var listener = Cc["@mozilla.org/network/sync-stream-listener;1"].createInstance(Ci.nsISyncStreamListener);
+	mservice.streamMessage(muri, listener, null, null, false, "", false);
+	var body = message.folder.getMsgTextFromStream(listener.inputStream, message.Charset, 65536, 32768, false, true, {});
 
 	//選択中文字列があるならそちらを優先する
 	var selection = document.commandDispatcher.focusedWindow.getSelection();
@@ -37,13 +24,46 @@ function onDialog() {
 		body = selection.getRangeAt(0).toString();
 	}
 
+	//チケットID取得
+	var id = 0;
+	for ( var i = 0; i < 1000; i++)
+	{
+		id = message.getUint32Property('redmineticketid');
+		if (id != 0)
+			break;
+
+		if (message.threadParent == 0xffffffff)
+			break;
+
+		message = gDBView.db.GetMsgHdrForKey(message.threadParent);
+	}
+
+	//返却
+	return {
+		id : id,
+		title : title,
+		body : body,
+	};
+}
+
+function onLoad() {}
+
+function onCreate() {
+	//redmineに接続できないならどうしようもない
+	if (!redmine.ping())
+	{
+		alert('Redmineの設定がされていません');
+		return;
+	}
+
 	//メッセージから得られる初期データ
+	var mail = getMessageData();
 	var maildata = {
-		subject : title,
-		description : body,
+		subject : mail.title,
+		description : mail.body,
 	};
 
-	//登録ダイアログを表示してチケット作成
+	//作成ダイアログを表示してチケット作成
 	window.openDialog("chrome://redthunderminebird/content/creation.xul", "creationDialog", "chrome,centerscreen,modal", maildata, function(ticket) {
 		//チケット作成
 		var result = redmine.create(ticket);
@@ -56,9 +76,15 @@ function onDialog() {
 			//・redmineのバグ？（http://www.redmine.org/issues/15926）
 			var url = preference.getString("redmine") + '/issues/' + result.issue.id;
 			window.openDialog("chrome://redthunderminebird/content/complete.xul", "completeDialog", "chrome,centerscreen,modal", {
+				title : '作成しました',
 				label : url,
 				value : url + '?key=' + preference.getString("apikey"),
 			});
+
+			//チケットIDを覚えておく
+			var message = gFolderDisplay.selectedMessage;
+			message.setUint32Property('redmineticketid', result.issue.id);
+
 			return true;
 		}
 		//errorsがある=リクエストは成功したが、バリデーションエラーがある
@@ -76,7 +102,53 @@ function onDialog() {
 		//それ以外は予測できない
 		else
 		{
-			alert('登録処理中に予期せぬエラーが発生しました');
+			alert('作成処理中に予期せぬエラーが発生しました');
+			return false;
+		}
+	});
+}
+
+function onUpdate() {
+	//redmineに接続できないならどうしようもない
+	if (!redmine.ping())
+	{
+		alert('Redmineの設定がされていません');
+		return;
+	}
+
+	//メッセージから得られる初期データ
+	var mail = getMessageData();
+	var maildata = {
+		id : mail.id,
+		subject : mail.title,
+		notes : mail.body,
+	};
+
+	//更新ダイアログを表示してチケット作成
+	window.openDialog("chrome://redthunderminebird/content/update.xul", "updateDialog", "chrome,centerscreen,modal", maildata, function(ticket) {
+		//チケット更新
+		try
+		{
+			var result = redmine.update(ticket);
+			logger.debug(result);
+
+			var url = preference.getString("redmine") + '/issues/' + ticket.id;
+			window.openDialog("chrome://redthunderminebird/content/complete.xul", "completeDialog", "chrome,centerscreen,modal", {
+				title : '更新しました',
+				label : url,
+				value : url + '?key=' + preference.getString("apikey"),
+			});
+
+			//チケットIDを覚えておく
+			var message = gFolderDisplay.selectedMessage;
+			message.setUint32Property('redmineticketid', ticket.id);
+
+			return true;
+		}
+		catch (e)
+		{
+			logger.error(e);
+			alert('更新処理中に予期せぬエラーが発生しました');
 			return false;
 		}
 	});

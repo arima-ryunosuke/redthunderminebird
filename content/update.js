@@ -8,46 +8,62 @@ load("resource://redthunderminebird/redmine.js", this);
 load("resource://redthunderminebird/utility.js", this);
 
 function onLoad() {
-	//プロジェクト一覧
-	var projects = redmine.projects();
-	var node = document.getElementById('project_id').childNodes[0];
-	for ( var i = 0; i < projects.length; i++)
-	{
-		utility.appendMenuitem(node, projects[i].id, projects[i].fullname);
-	}
-
-	//トラッカー一覧
-	var trackers = redmine.trackers();
-	var node = document.getElementById('tracker_id').childNodes[0];
-	for ( var i = 0; i < trackers.length; i++)
-	{
-		utility.appendMenuitem(node, trackers[i].id, trackers[i].name);
-	}
-
-	//thunderbirdフォルダとredmineプロジェクトのマッピング
-	var directorys = preference.getObject('directories');
-	var folder = window.opener.gFolderDisplay.displayedFolder.URI;
-
-	//デフォルトor未指定ならデフォルト
-	var project_id = directorys[folder];
-	if (!project_id)
-		project_id = directorys[''];
-
 	//初期データ取得
 	var defdata = window.arguments[0];
-	defdata.project_id = project_id;
-	defdata.tracker_id = preference.getString('default_tracker');
-	var due_length = parseInt(preference.getInt('default_due'));
-	if (!isNaN(due_length) && due_length > 0)
-		defdata.due_date = utility.formatDate(new Date(), due_length);
 	if (preference.getBool('default_description'))
 	{
-		defdata.description = defdata.description.replace(/^(.*)(\r\n|\r|\n)/mg, function(m, m1, m2) {
+		defdata.notes = defdata.notes.replace(/^(.*)(\r\n|\r|\n)/mg, function(m, m1, m2) {
 			if (m.charAt(0) == '>')
 				return m;
 			else
 				return m1 + '  ' + m2;
 		});
+	}
+
+	//作成した形跡があるならそれのみ
+	if (defdata.id != 0)
+	{
+		try
+		{
+			var node = document.getElementById('id').childNodes[0];
+			var ticket = redmine.ticket(defdata.id);
+			utility.appendMenuitem(node, ticket.id, '#' + ticket.id + ':' + ticket.subject);
+		}
+		catch (e)
+		{
+			window.opener.alert('チケットの読み込みに失敗しました');
+			defdata.id = 0;
+		}
+	}
+	//チケット一覧？
+	if (defdata.id == 0)
+	{
+		//ディレクトリマッピング
+		var directorys = preference.getObject('directories');
+		var folder = window.opener.gFolderDisplay.displayedFolder.URI;
+		var project_id = directorys[folder];
+		if (!project_id)
+			project_id = directorys[''];
+
+		//チケットループ
+		var cid = 0;
+		var node = document.getElementById('id').childNodes[0];
+		var tickets = redmine.tickets(project_id, 50);
+		for ( var i = 0; i < tickets.length; i++)
+		{
+			//名前が似ているなら初期選択とする
+			if (cid == 0)
+			{
+				var as = tickets[i].subject.replace(/\[.*\]|\(.*\)|【.*】|re|fwd/gi, '');
+				var bs = defdata.subject.replace(/\[.*\]|【.*】|re|fwd/gi, '');
+				if (as.indexOf(bs) != -1 || bs.indexOf(as) != -1)
+				{
+					cid = tickets[i].id;
+				}
+			}
+			utility.appendMenuitem(node, tickets[i].id, '#' + tickets[i].id + ':' + tickets[i].subject);
+		}
+		defdata.id = cid;
 	}
 
 	//初期データ投入
@@ -60,35 +76,13 @@ function onLoad() {
 	}
 }
 
-function onProject() {
-	//デフォルト設定用
-	var user = redmine.myself();
-	var project_id = document.getElementById('project_id').value;
-
-	//担当者再構築
-	var node = document.getElementById('assigned_to_id').childNodes[0];
-	utility.removeChildren(node);
-	utility.appendMenuitem(node, user.id, '<< 自分 >>');
-	var members = redmine.members(project_id);
-	for ( var i = 0; i < members.length; i++)
+function onUpdate() {
+	if (document.getElementById('id').value == 0)
 	{
-		if (user.id == members[i].user.id)
-			continue;
-		utility.appendMenuitem(node, members[i].user.id, members[i].user.name);
+		alert('対象チケットが選択されていません');
+		return;
 	}
-	document.getElementById('assigned_to_id').value = user.id;
 
-	//対象バージョン再構築
-	var node = document.getElementById('fixed_version_id').childNodes[0];
-	utility.removeChildren(node);
-	var versions = redmine.versions(project_id);
-	for ( var i = 0; i < versions.length; i++)
-	{
-		utility.appendMenuitem(node, versions[i].id, versions[i].name);
-	}
-}
-
-function onCreate() {
 	//MIMEメッセージ変換
 	MsgHdrToMimeMessage(window.opener.gFolderDisplay.selectedMessage, null, function(message, mimemessage) {
 
@@ -142,7 +136,6 @@ function onCreate() {
 				data[id] = elements[i].value;
 		}
 
-		//コールバック呼び出し(チケット登録できたらtrue)
 		if (window.arguments[1](data))
 		{
 			close();

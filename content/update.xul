@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="chrome://global/skin/global.css" type="text/css"?>
+
+<window onload="onLoad();" id="redthunderminebirdPrefWindow" title="チケット更新" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+
+	<script type="text/javascript" src="chrome://redthunderminebird/content/update.js" />
+
+	<grid style="width:640px;">
+		<columns>
+			<column flex="1" />
+			<column flex="8" />
+		</columns>
+
+		<rows>
+			<row align="center">
+				<label value="対象チケット" />
+				<menulist id="id" class="ticket_data">
+					<menupopup>
+					</menupopup>
+				</menulist>
+			</row>
+			<row align="center">
+				<label value="追記" />
+				<textbox id="notes" multiline="true" rows="10" class="ticket_data" />
+			</row>
+			<row align="center">
+				<label value="その他" />
+				<box>
+					<checkbox id="is_attachment" label="添付ファイルを含める" />
+				</box>
+			</row>
+		</rows>
+	</grid>
+
+	<hbox>
+		<spacer flex="1" />
+		<button style="width:80px" label="更新" oncommand="onUpdate();" />
+
+	</hbox>
+</window>

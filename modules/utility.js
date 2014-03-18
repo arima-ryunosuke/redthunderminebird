@@ -20,6 +20,15 @@ var Utility = function() {
 		}
 	};
 
+	this.jsontoquery = function(json) {
+		var result = '';
+		for ( var k in json)
+		{
+			result += '&' + encodeURIComponent(k) + '=' + encodeURIComponent(json[k]);
+		}
+		return result;
+	};
+
 	this.formatDate = function(target, deltadate) {
 		if (deltadate !== undefined)
 		{
