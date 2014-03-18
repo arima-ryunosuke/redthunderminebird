@@ -119,7 +119,7 @@ function onCreate() {
 
 			//ファイルを登録してtokenを取得
 			var result = redmine.upload(buffer);
-			log(result.upload.token);
+			logger.debug(result.upload.token);
 
 			//アップロードパラメータの追加
 			var upload = {

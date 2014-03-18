@@ -6,10 +6,10 @@ load("resource://redthunderminebird/preference.js", this);
 load("resource://redthunderminebird/utility.js", this);
 
 var Redmine = function() {
-	log('Redmine constractor');
+	logger.debug('Redmine constractor');
 
 	this.request = function(method, path, data, type) {
-		log('request:', method, path);
+		logger.debug('request:', method, path);
 
 		//設定値と引数からURL生成
 		var hostname = preference.getString("redmine");
@@ -41,14 +41,14 @@ var Redmine = function() {
 		var request = Cc["@mozilla.org/xmlextras/xmlhttprequest;1"].createInstance();
 		try
 		{
-			log('request request:', url);
+			logger.debug('request request:', url);
 			
 			request.open(method, url, false);
 			request.setRequestHeader("Content-Type", type);
 			request.send(body);
 
-			log('request status:', request.status);
-			log('request response:', request.responseText);
+			logger.debug('request status:', request.status);
+			logger.debug('request response:', request.responseText);
 
 			if (request.status >= 300 && request.status != 422)
 				throw request;
@@ -93,13 +93,13 @@ var Redmine = function() {
 	};
 
 	this.upload = function(data) {
-		log('upload:', data.length);
+		logger.debug('upload:', data.length);
 
 		return this.request('POST', 'uploads.json', data, 'application/octet-stream');
 	};
 
 	this.create = function(ticket) {
-		log('create:', ticket);
+		logger.debug('create:', ticket);
 
 		return this.request('POST', 'issues.json', {
 			issue : ticket,
@@ -108,7 +108,7 @@ var Redmine = function() {
 
 	var myself = null;
 	this.myself = function() {
-		log('myself');
+		logger.debug('myself');
 
 		if (myself === null)
 		{
@@ -121,7 +121,7 @@ var Redmine = function() {
 
 	var projects = null;
 	this.projects = function() {
-		log('projects');
+		logger.debug('projects');
 		if (projects === null)
 		{
 			//取得
@@ -151,7 +151,7 @@ var Redmine = function() {
 
 	var members = {};
 	this.members = function(project_id) {
-		log('members:', project_id);
+		logger.debug('members:', project_id);
 		if (members[project_id] === undefined)
 		{
 			//取得(権限の関係で例外が飛びやすい)
@@ -175,7 +175,7 @@ var Redmine = function() {
 
 	var versions = {};
 	this.versions = function(project_id) {
-		log('versions:', project_id);
+		logger.debug('versions:', project_id);
 		if (versions[project_id] === undefined)
 		{
 			//取得
@@ -187,7 +187,7 @@ var Redmine = function() {
 
 	var trackers = null;
 	this.trackers = function() {
-		log('trackers');
+		logger.debug('trackers');
 		if (trackers === null)
 		{
 			//取得
@@ -198,7 +198,7 @@ var Redmine = function() {
 	};
 
 	this.recache = function() {
-		log('recache');
+		logger.debug('recache');
 		//キャッシュを殺す
 		myself = null;
 		projects = null;
