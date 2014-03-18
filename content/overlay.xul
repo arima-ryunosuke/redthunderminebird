@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?xml-stylesheet href="chrome://global/skin/global.css" type="text/css"?>
 
-<overlay onload="onLoad();" id="redthunderminebird" xmlns:html="http://www.w3.org/1999/xhtml" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+<overlay id="redthunderminebird" xmlns:html="http://www.w3.org/1999/xhtml" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
 
 	<script type="text/javascript" src="chrome://redthunderminebird/content/overlay.js" />
 
 	<popup id="mailContext">
-		<menuitem label="Redmineチケット作成" oncommand="onCreate();" />
-		<menuitem label="Redmineチケット更新" oncommand="onUpdate();" />
+		<menuitem label="Redmineチケット作成" id="ticket_create" oncommand="onCreate();" />
+		<menuitem label="Redmineチケット更新" id="ticket_update" oncommand="onUpdate();" />
+		<menuitem label="Redmineチケット開く" id="ticket_open" oncommand="onOpen();" />
 	</popup>
 
 </overlay>

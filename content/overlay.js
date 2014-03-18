@@ -46,8 +46,6 @@ function getMessageData() {
 	};
 }
 
-function onLoad() {}
-
 function onCreate() {
 	//redmineに接続できないならどうしようもない
 	if (!redmine.ping())
@@ -153,3 +151,19 @@ function onUpdate() {
 		}
 	});
 }
+
+function onOpen() {
+	var mail = getMessageData();
+	if (mail.id != 0)
+	{
+		var url = preference.getString("redmine") + '/issues/' + mail.id + '?key=' + preference.getString("apikey");
+		openURL(url);
+	}
+}
+
+window.addEventListener('load', function() {
+	document.getElementById('mailContext').addEventListener('popupshowing', function(e) {
+		var mail = getMessageData();
+		document.getElementById('ticket_open').setAttribute('disabled', mail.id == 0);
+	}, false);
+}, true);
