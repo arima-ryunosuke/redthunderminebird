@@ -145,7 +145,3 @@ function onCommit() {
 	//終了
 	close();
 }
-
-function onCancel() {
-	close();
-}

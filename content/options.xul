@@ -61,7 +61,7 @@
 	<hbox>
 		<spacer flex="1" />
 		<button label="OK" oncommand="onCommit();" />
-		<button label="キャンセル" oncommand="onCancel();" />
+		<button label="キャンセル" oncommand="close();" />
 	</hbox>
 
 </window>

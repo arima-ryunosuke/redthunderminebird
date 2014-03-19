@@ -34,7 +34,8 @@
 
 	<hbox>
 		<spacer flex="1" />
-		<button style="width:80px" label="更新" oncommand="onUpdate();" />
+		<button label="更新" oncommand="onUpdate();" />
+		<button label="キャンセル" oncommand="close();" />
 
 	</hbox>
 </window>

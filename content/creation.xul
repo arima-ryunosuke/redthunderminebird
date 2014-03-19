@@ -70,7 +70,8 @@
 
 	<hbox>
 		<spacer flex="1" />
-		<button style="width:80px" label="作成" oncommand="onCreate();" />
+		<button label="作成" oncommand="onCreate();" />
+		<button label="キャンセル" oncommand="close();" />
 
 	</hbox>
 </window>
