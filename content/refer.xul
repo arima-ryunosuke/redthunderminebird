@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="chrome://global/skin/global.css" type="text/css"?>
+
+<window onload="onLoad();" id="redthunderminebirdPrefWindow" title="チケット関連付け" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+
+	<script type="text/javascript" src="chrome://redthunderminebird/content/refer.js" />
+
+	<grid style="width:640px;">
+		<columns>
+			<column flex="1" />
+			<column flex="8" />
+		</columns>
+
+		<rows>
+			<row align="center">
+				<label value="関連付けるチケット" />
+				<menulist id="id" class="ticket_data">
+					<menupopup>
+					</menupopup>
+				</menulist>
+			</row>
+		</rows>
+	</grid>
+
+	<hbox>
+		<spacer flex="1" />
+		<button label="OK" oncommand="onRefer();" />
+		<button label="キャンセル" oncommand="close();" />
+
+	</hbox>
+</window>

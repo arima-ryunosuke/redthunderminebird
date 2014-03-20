@@ -4,6 +4,19 @@ load("resource://redthunderminebird/preference.js", this);
 load("resource://redthunderminebird/redmine.js", this);
 load("resource://redthunderminebird/utility.js", this);
 
+function refer(id) {
+	var message = gFolderDisplay.selectedMessage;
+	var rootmessage = gDBView.db.GetMsgHdrForKey(message.threadId);
+	if (id === undefined)
+	{
+		return rootmessage.getUint32Property('redmineticketid');
+	}
+	else
+	{
+		rootmessage.setUint32Property('redmineticketid', id);
+	}
+}
+
 function getMessageData() {
 	//件名とボディ
 	var message = gFolderDisplay.selectedMessage;
@@ -25,18 +38,7 @@ function getMessageData() {
 	}
 
 	//チケットID取得
-	var id = 0;
-	for ( var i = 0; i < 1000; i++)
-	{
-		id = message.getUint32Property('redmineticketid');
-		if (id != 0)
-			break;
-
-		if (message.threadParent == 0xffffffff)
-			break;
-
-		message = gDBView.db.GetMsgHdrForKey(message.threadParent);
-	}
+	var id = refer();
 
 	//返却
 	return {
@@ -79,9 +81,7 @@ function onCreate() {
 				value : url + '?key=' + preference.getString("apikey"),
 			});
 
-			//チケットIDを覚えておく
-			var message = gFolderDisplay.selectedMessage;
-			message.setUint32Property('redmineticketid', result.issue.id);
+			refer(parseInt(result.issue.id));
 
 			return true;
 		}
@@ -122,7 +122,7 @@ function onUpdate() {
 		notes : mail.body,
 	};
 
-	//更新ダイアログを表示してチケット作成
+	//更新ダイアログを表示してチケット更新
 	window.openDialog("chrome://redthunderminebird/content/update.xul", "updateDialog", "chrome,centerscreen,modal", maildata, function(ticket) {
 		//チケット更新
 		try
@@ -137,9 +137,7 @@ function onUpdate() {
 				value : url + '?key=' + preference.getString("apikey"),
 			});
 
-			//チケットIDを覚えておく
-			var message = gFolderDisplay.selectedMessage;
-			message.setUint32Property('redmineticketid', ticket.id);
+			refer(parseInt(ticket.id));
 
 			return true;
 		}
@@ -153,17 +151,34 @@ function onUpdate() {
 }
 
 function onOpen() {
-	var mail = getMessageData();
-	if (mail.id != 0)
+	var id = refer();
+	if (id != 0)
 	{
-		var url = preference.getString("redmine") + '/issues/' + mail.id + '?key=' + preference.getString("apikey");
+		var url = preference.getString("redmine") + '/issues/' + id + '?key=' + preference.getString("apikey");
 		openURL(url);
 	}
+}
+
+function onRefer() {
+	//メッセージから得られる初期データ
+	var mail = getMessageData();
+	var maildata = {
+		id : mail.id,
+		subject : mail.title,
+	};
+
+	//関連付けダイアログを表示してチケット関連付け
+	window.openDialog("chrome://redthunderminebird/content/refer.xul", "referDialog", "chrome,centerscreen,modal", maildata, function(newid) {
+
+		refer(parseInt(newid));
+		return true;
+	});
 }
 
 window.addEventListener('load', function() {
 	document.getElementById('mailContext').addEventListener('popupshowing', function(e) {
 		var mail = getMessageData();
 		document.getElementById('ticket_open').setAttribute('disabled', mail.id == 0);
+		document.getElementById('ticket_update').setAttribute('disabled', mail.id == 0);
 	}, false);
 }, true);

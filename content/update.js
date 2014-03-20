@@ -20,52 +20,6 @@ function onLoad() {
 		});
 	}
 
-	//作成した形跡があるならそれのみ
-	if (defdata.id != 0)
-	{
-		try
-		{
-			var node = document.getElementById('id').childNodes[0];
-			var ticket = redmine.ticket(defdata.id);
-			utility.appendMenuitem(node, ticket.id, '#' + ticket.id + ':' + ticket.subject);
-		}
-		catch (e)
-		{
-			window.opener.alert('チケットの読み込みに失敗しました');
-			defdata.id = 0;
-		}
-	}
-	//チケット一覧？
-	if (defdata.id == 0)
-	{
-		//ディレクトリマッピング
-		var directorys = preference.getObject('directories');
-		var folder = window.opener.gFolderDisplay.displayedFolder.URI;
-		var project_id = directorys[folder];
-		if (!project_id)
-			project_id = directorys[''];
-
-		//チケットループ
-		var cid = 0;
-		var node = document.getElementById('id').childNodes[0];
-		var tickets = redmine.tickets(project_id, 50);
-		for ( var i = 0; i < tickets.length; i++)
-		{
-			//名前が似ているなら初期選択とする
-			if (cid == 0)
-			{
-				var as = tickets[i].subject.replace(/\[.*\]|\(.*\)|【.*】|re|fwd/gi, '');
-				var bs = defdata.subject.replace(/\[.*\]|【.*】|re|fwd/gi, '');
-				if (as.indexOf(bs) != -1 || bs.indexOf(as) != -1)
-				{
-					cid = tickets[i].id;
-				}
-			}
-			utility.appendMenuitem(node, tickets[i].id, '#' + tickets[i].id + ':' + tickets[i].subject);
-		}
-		defdata.id = cid;
-	}
-
 	//初期データ投入
 	var elements = document.getElementsByClassName('ticket_data');
 	for ( var i = 0; i < elements.length; i++)
@@ -74,6 +28,10 @@ function onLoad() {
 		if (defdata[id] !== undefined)
 			elements[i].value = defdata[id];
 	}
+
+	//タイトル設定
+	var ticket = redmine.ticket(defdata.id);
+	document.getElementById('ticket_title').value = '#' + ticket.id + ':' + ticket.subject;
 }
 
 function onUpdate() {

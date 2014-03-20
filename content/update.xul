@@ -14,13 +14,13 @@
 		<rows>
 			<row align="center">
 				<label value="対象チケット" />
-				<menulist id="id" class="ticket_data">
-					<menupopup>
-					</menupopup>
-				</menulist>
+				<box>
+					<label id="ticket_title" value="" />
+					<textbox id="id" class="ticket_data" hidden="true" />
+				</box>
 			</row>
 			<row align="center">
-				<label value="追記" />
+				<label value="ノート追記" />
 				<textbox id="notes" multiline="true" rows="10" class="ticket_data" />
 			</row>
 			<row align="center">

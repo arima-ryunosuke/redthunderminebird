@@ -6,9 +6,10 @@
 	<script type="text/javascript" src="chrome://redthunderminebird/content/overlay.js" />
 
 	<popup id="mailContext">
-		<menuitem label="Redmineチケット作成" id="ticket_create" oncommand="onCreate();" />
-		<menuitem label="Redmineチケット更新" id="ticket_update" oncommand="onUpdate();" />
-		<menuitem label="Redmineチケット開く" id="ticket_open" oncommand="onOpen();" />
+		<menuitem label="チケットと関連付ける" id="ticket_refer" oncommand="onRefer();" />
+		<menuitem label="チケットを作成" id="ticket_create" oncommand="onCreate();" />
+		<menuitem label="チケットを更新" id="ticket_update" oncommand="onUpdate();" />
+		<menuitem label="チケットを開く" id="ticket_open" oncommand="onOpen();" />
 	</popup>
 
 </overlay>
