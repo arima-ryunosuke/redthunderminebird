@@ -1,3 +1,5 @@
-content redthunderminebird content/
+content  redthunderminebird content/
 resource redthunderminebird modules/
-overlay chrome://messenger/content/messenger.xul chrome://redthunderminebird/content/overlay.xul
+locale   redthunderminebird   en-US         locale/en-US/
+locale   redthunderminebird   ja-JP         locale/ja-JP/
+overlay  chrome://messenger/content/messenger.xul chrome://redthunderminebird/content/overlay.xul

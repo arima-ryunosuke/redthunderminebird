@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?xml-stylesheet href="chrome://global/skin/global.css" type="text/css"?>
+<!DOCTYPE window SYSTEM "chrome://redthunderminebird/locale/application.dtd">
 
-<window onload="onLoad();" id="redthunderminebirdPrefWindow" title="チケット作成" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+<window onload="onLoad();" title="&dialog-create.title;" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
 
 	<script type="text/javascript" src="chrome://redthunderminebird/content/create.js" />
 
@@ -13,53 +14,53 @@
 
 		<rows>
 			<row align="center">
-				<label value="プロジェクト" />
+				<label value="&dialog-create.project-label;" />
 				<menulist id="project_id" class="ticket_data" oncommand="onProject();">
 					<menupopup>
 					</menupopup>
 				</menulist>
 			</row>
 			<row align="center">
-				<label value="トラッカー" />
+				<label value="&dialog-create.tracker-label;" />
 				<menulist id="tracker_id" class="ticket_data">
 					<menupopup>
 					</menupopup>
 				</menulist>
 			</row>
 			<row align="center">
-				<label value="題名" />
+				<label value="&dialog-create.subject-label;" />
 				<textbox id="subject" class="ticket_data" />
 			</row>
 			<row align="center">
-				<label value="説明" />
+				<label value="&dialog-create.description-label;" />
 				<textbox id="description" multiline="true" rows="10" class="ticket_data" />
 			</row>
 			<row align="center">
-				<label value="担当者(管理者のみ)" />
+				<label value="&dialog-create.assigned-label;" />
 				<menulist id="assigned_to_id" class="ticket_data">
 					<menupopup>
 					</menupopup>
 				</menulist>
 			</row>
 			<row align="center">
-				<label value="対象バージョン" />
+				<label value="&dialog-create.version-label;" />
 				<menulist id="fixed_version_id" class="ticket_data">
 					<menupopup>
 					</menupopup>
 				</menulist>
 			</row>
 			<row align="center">
-				<label value="期間" />
+				<label value="&dialog-create.period-label;" />
 
 				<box align="center">
-					<label value="開始日" />
+					<label value="&dialog-create.start-label;" />
 					<datepicker id="start_date" type="popup" class="ticket_data" firstdayofweek="1" />
-					<label value="期日" />
+					<label value="&dialog-create.due-label;" />
 					<datepicker id="due_date" type="popup" class="ticket_data" firstdayofweek="1" />
 				</box>
 			</row>
 			<row align="center">
-				<label value="ファイル" />
+				<label value="&dialog-create.file-label;" />
 				<grid>
 					<columns>
 						<column flex="1" />
@@ -72,9 +73,9 @@
 				</grid>
 			</row>
 			<row align="center">
-				<label value="その他" />
+				<label value="&dialog-create.other-label;" />
 				<box>
-					<checkbox id="is_private" class="ticket_data" label="プライベート" />
+					<checkbox id="is_private" class="ticket_data" label="&dialog-create.private-label;" />
 				</box>
 			</row>
 		</rows>
@@ -82,8 +83,8 @@
 
 	<hbox>
 		<spacer flex="1" />
-		<button label="作成" oncommand="onCreate();" />
-		<button label="キャンセル" oncommand="close();" />
+		<button label="&dialog.ok-label;" oncommand="onCreate();" />
+		<button label="&dialog.ng-label;" oncommand="close();" />
 
 	</hbox>
 </window>

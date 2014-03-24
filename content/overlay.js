@@ -9,7 +9,7 @@ function onCreate() {
 	//redmineに接続できないならどうしようもない
 	if (!redmine.ping())
 	{
-		alert('Redmineの設定がされていません');
+		alert(bundle.GetStringFromName("message.invalidredmine"));
 		return;
 	}
 
@@ -31,7 +31,7 @@ function onCreate() {
 				//・redmineのバグ？（http://www.redmine.org/issues/15926）
 				var url = message.getUrl();
 				window.openDialog("chrome://redthunderminebird/content/complete.xul", "completeDialog", "chrome,centerscreen,modal", {
-					title : '作成しました',
+					title : bundle.GetStringFromName("message.issuecreated"),
 					label : url,
 					value : url + '?key=' + preference.getString("apikey"),
 				});
@@ -53,7 +53,7 @@ function onCreate() {
 			//それ以外は予測できない
 			else
 			{
-				alert('作成処理中に予期せぬエラーが発生しました');
+				alert(bundle.GetStringFromName("message.othererror"));
 				return false;
 			}
 		});
@@ -65,7 +65,7 @@ function onUpdate() {
 	//redmineに接続できないならどうしようもない
 	if (!redmine.ping())
 	{
-		alert('Redmineの設定がされていません');
+		alert(bundle.GetStringFromName("message.invalidredmine"));
 		return;
 	}
 
@@ -84,7 +84,7 @@ function onUpdate() {
 
 				var url = message.getUrl();
 				window.openDialog("chrome://redthunderminebird/content/complete.xul", "completeDialog", "chrome,centerscreen,modal", {
-					title : '更新しました',
+					title : bundle.GetStringFromName("message.issueupdated"),
 					label : url,
 					value : url + '?key=' + preference.getString("apikey"),
 				});
@@ -94,7 +94,7 @@ function onUpdate() {
 			catch (e)
 			{
 				logger.error(e);
-				alert('更新処理中に予期せぬエラーが発生しました');
+				alert(bundle.GetStringFromName("message.othererror"));
 				return false;
 			}
 		});

@@ -47,7 +47,7 @@ function onLoad() {
 	var defdata = message.toObject();
 	var elements = document.getElementsByClassName('ticket_data');
 	utility.jsontoform(defdata, elements);
-	
+
 	onProject();
 }
 
@@ -64,14 +64,14 @@ function onProject() {
 	catch (e)
 	{
 		logger.error(e);
-		window.opener.alert('プロジェクトが見つかりませんでした');
+		window.opener.alert(bundle.GetStringFromName("message.notfoundproject"));
 		return close();
 	}
 
 	//担当者再構築
 	var node = document.getElementById('assigned_to_id').childNodes[0];
 	utility.removeChildren(node);
-	utility.appendMenuitem(node, user.id, '<< 自分 >>');
+	utility.appendMenuitem(node, user.id, bundle.GetStringFromName("value.myselfname"));
 	var members = redmine.members(project_id);
 	for ( var i = 0; i < members.length; i++)
 	{

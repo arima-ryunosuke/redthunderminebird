@@ -41,7 +41,7 @@ function onLoad() {
 	catch (e)
 	{
 		logger.error(e);
-		window.opener.alert('関連付けられたチケットが見つかりませんでした');
+		window.opener.alert(bundle.GetStringFromName("message.notfoundreferedissue"));
 		return close();
 	}
 }
@@ -49,7 +49,7 @@ function onLoad() {
 function onUpdate() {
 	if (document.getElementById('id').value == 0)
 	{
-		alert('対象チケットが選択されていません');
+		alert(bundle.GetStringFromName("message.notselectissue"));
 		return;
 	}
 

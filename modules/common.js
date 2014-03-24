@@ -1,4 +1,4 @@
-var EXPORTED_SYMBOLS = [ 'DEBUG', 'Cc', 'Ci', 'Cu', 'load', 'logger', 'log' ];
+var EXPORTED_SYMBOLS = [ 'DEBUG', 'Cc', 'Ci', 'Cu', 'load', 'logger', 'log', 'bundle' ];
 
 //デバッグフラグ
 var DEBUG = true;
@@ -11,7 +11,9 @@ var Cc = Components.classes;
 var Ci = Components.interfaces;
 var Cu = Components.utils;
 
-//コンソール
+//ロケール
+var bundle_service = Cc["@mozilla.org/intl/stringbundle;1"].getService(Ci.nsIStringBundleService);
+var bundle = bundle_service.createBundle("chrome://redthunderminebird/locale/application.properties");
 
 //ロガー
 var Logger = function(level) {

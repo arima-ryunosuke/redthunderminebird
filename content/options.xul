@@ -1,18 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?xml-stylesheet href="chrome://global/skin/global.css" type="text/css"?>
+<!DOCTYPE window SYSTEM "chrome://redthunderminebird/locale/application.dtd">
 
-<window onload="onLoad();" id="redthunderminebirdPrefWindow" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul" title="設定">
+<window onload="onLoad();" title="&options.title;" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
 
 	<script type="text/javascript" src="chrome://redthunderminebird/content/options.js" />
 
 	<prefpane>
-		<button label="基本設定" oncommand="onRedmine();" style="width:80px;" />
+		<button label="&options.basic-label;" oncommand="onRedmine();" style="width:80px;" />
 	</prefpane>
 
 	<separator class="groove" />
 
 	<prefpane id="advance_option">
-		<label class="header" value="入力のデフォルト値" />
+		<label class="header" value="&options.defaults-label;" />
 		<grid>
 			<columns>
 				<column flex="1" />
@@ -21,22 +22,22 @@
 
 			<rows>
 				<row align="center">
-					<label value="トラッカー" />
+					<label value="&options.tracker-label;" />
 					<menulist id="redthunderminebird-default_tracker">
 						<menupopup>
 						</menupopup>
 					</menulist>
 				</row>
 				<row align="center">
-					<label value="期日(日)" />
+					<label value="&options.duelength-label;" />
 					<box>
 						<textbox id="redthunderminebird-default_due" type="number" style="width:4em;text-align:right;" />
 					</box>
 				</row>
 				<row>
-					<label value="説明" />
+					<label value="&options.description-label;" />
 					<box>
-						<checkbox id="redthunderminebird-default_description" label="改行を保つ(改行にスペース2つを付加する)" />
+						<checkbox id="redthunderminebird-default_description" label="&options.description-markdown-label;" />
 					</box>
 				</row>
 			</rows>
@@ -44,7 +45,7 @@
 
 		<separator class="groove" />
 
-		<label class="header" value="フォルダマッピング" />
+		<label class="header" value="&options.folder-mapping-label;" />
 		<vbox style="overflow:auto;max-height:460px;">
 			<grid>
 				<columns>
@@ -60,8 +61,8 @@
 
 	<hbox>
 		<spacer flex="1" />
-		<button label="OK" oncommand="onCommit();" />
-		<button label="キャンセル" oncommand="close();" />
+		<button label="&dialog.ok-label;" oncommand="onCommit();" />
+		<button label="&dialog.ng-label;" oncommand="close();" />
 	</hbox>
 
 </window>

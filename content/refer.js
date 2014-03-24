@@ -47,7 +47,7 @@ function onMore() {
 	catch (e)
 	{
 		logger.error(e);
-		window.opener.alert('プロジェクトが見つかりませんでした');
+		window.opener.alert(bundle.GetStringFromName("message.notfoundproject"));
 		return close();
 	}
 }
@@ -63,7 +63,7 @@ function onRefer() {
 	var newid = document.getElementById('id').value;
 	if (newid == 0)
 	{
-		alert('対象チケットが選択されていません');
+		alert(bundle.GetStringFromName("message.notselectissue"));
 		return;
 	}
 

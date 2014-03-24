@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?xml-stylesheet href="chrome://global/skin/global.css" type="text/css"?>
+<!DOCTYPE window SYSTEM "chrome://redthunderminebird/locale/application.dtd">
 
-<window onload="onLoad();" id="redthunderminebirdPrefWindow" title="チケット更新" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+<window onload="onLoad();" title="&dialog-update.title;" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
 
 	<script type="text/javascript" src="chrome://redthunderminebird/content/update.js" />
 
@@ -13,16 +14,16 @@
 
 		<rows>
 			<row align="center">
-				<label value="対象チケット" />
+				<label value="&dialog-update.issue-label;" />
 				<textbox id="ticket_title" value="" disabled="true" />
 				<textbox id="id" class="ticket_data" hidden="true" />
 			</row>
 			<row align="center">
-				<label value="ノート追記" />
+				<label value="&dialog-update.notes-label;" />
 				<textbox id="notes" multiline="true" rows="10" class="ticket_data" />
 			</row>
 			<row align="center">
-				<label value="ファイル" />
+				<label value="&dialog-update.file-label;" />
 				<grid>
 					<columns>
 						<column flex="1" />
@@ -39,8 +40,8 @@
 
 	<hbox>
 		<spacer flex="1" />
-		<button label="更新" oncommand="onUpdate();" />
-		<button label="キャンセル" oncommand="close();" />
+		<button label="&dialog.ok-label;" oncommand="onUpdate();" />
+		<button label="&dialog.ng-label;" oncommand="close();" />
 
 	</hbox>
 </window>
