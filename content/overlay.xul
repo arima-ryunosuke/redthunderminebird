@@ -6,7 +6,7 @@
 	<script type="text/javascript" src="chrome://redthunderminebird/content/overlay.js" />
 
 	<popup id="mailContext">
-		<menuitem label="チケットと関連付ける" id="ticket_refer" oncommand="onRefer();" />
+		<menuitem label="チケットを関連付ける" id="ticket_refer" oncommand="onRefer();" />
 		<menuitem label="チケットを作成" id="ticket_create" oncommand="onCreate();" />
 		<menuitem label="チケットを更新" id="ticket_update" oncommand="onUpdate();" />
 		<menuitem label="チケットを開く" id="ticket_open" oncommand="onOpen();" />

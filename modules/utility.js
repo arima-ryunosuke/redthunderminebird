@@ -12,6 +12,15 @@ var Utility = function() {
 		node.appendChild(menuitem);
 		return menuitem;
 	};
+	
+	this.appendListitem = function(node, value, label) {
+		var document = node.ownerDocument;
+		var listitem = document.createElement("listitem");
+		listitem.setAttribute('value', value);
+		listitem.setAttribute('label', label);
+		node.appendChild(listitem);
+		return listitem;
+	};
 
 	this.removeChildren = function(node) {
 		for ( var i = node.childNodes.length - 1; i >= 0; i--)
@@ -29,6 +38,33 @@ var Utility = function() {
 		return result;
 	};
 
+	this.jsontoform = function(json, elements) {
+		for ( var i = 0; i < elements.length; i++)
+		{
+			var id = elements[i].getAttribute('id');
+			if (json[id] !== undefined)
+			{
+				if (elements[i].tagName == "checkbox")
+					elements[i].checked = json[id];
+				else
+					elements[i].value = json[id];
+			}
+		}
+	};
+
+	this.formtojson = function(elements) {
+		var result = {};
+		for ( var i = 0; i < elements.length; i++)
+		{
+			var id = elements[i].getAttribute('id');
+			if (elements[i].tagName == "checkbox")
+				result[id] = elements[i].checked;
+			else
+				result[id] = elements[i].value;
+		}
+		return result;
+	};
+
 	this.formatDate = function(target, deltadate) {
 		if (deltadate !== undefined)
 		{
@@ -39,6 +75,14 @@ var Utility = function() {
 		var month = target.getMonth() + 1;
 		var date = target.getDate();
 		return year + '-' + (month < 10 ? '0' : '') + month + '-' + (date < 10 ? '0' : '') + date;
+	};
+
+	this.formatSize = function(source) {
+		return String(source).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, '$1,') + ' bytes';
+	};
+
+	this.formatTicketSubject = function(object) {
+		return '#' + object.id + ':' + object.subject;
 	};
 };
 

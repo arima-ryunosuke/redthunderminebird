@@ -102,14 +102,30 @@ var Redmine = function() {
 		return result;
 	};
 
-	this.upload = function(data) {
-		logger.debug('upload:', data.length);
+	this.upload = function(file) {
+		logger.debug('upload:', file.name, file.data.byteLength);
 
-		return this.request('POST', 'uploads.json', data, 'application/octet-stream');
+		var result = this.request('POST', 'uploads.json', file.data, 'application/octet-stream');
+		var upload = {
+			token : result.upload.token,
+			filename : file.name,
+			content_type : file.contentType,
+			description : '',
+		};
+		return upload;
 	};
 
 	this.create = function(ticket) {
 		logger.debug('create:', ticket);
+
+		//ファイルを登録してtokenを取得
+		ticket.uploads = [];
+		var files = ticket.files;
+		delete ticket.files;
+		for ( var i = 0; i < files.length; i++)
+		{
+			ticket.uploads.push(this.upload(files[i]));
+		}
 
 		return this.request('POST', 'issues.json', {
 			issue : ticket,
@@ -118,6 +134,15 @@ var Redmine = function() {
 
 	this.update = function(ticket) {
 		logger.debug('update:', ticket);
+
+		//ファイルを登録してtokenを取得
+		ticket.uploads = [];
+		var files = ticket.files || [];
+		delete ticket.files;
+		for ( var i = 0; i < files.length; i++)
+		{
+			ticket.uploads.push(this.upload(files[i]));
+		}
 
 		return this.request('PUT', 'issues/' + ticket.id + '.json', {
 			issue : ticket,
@@ -132,11 +157,12 @@ var Redmine = function() {
 		return response.issue;
 	};
 
-	this.tickets = function(project_id, limit) {
-		logger.debug('tickets:', project_id, limit);
+	this.tickets = function(project_id, offset, limit) {
+		logger.debug('tickets:', project_id, offset, limit);
 
 		//取得
 		var response = this.request('GET', 'projects/' + project_id + '/issues.json', {
+			offset : offset,
 			limit : limit,
 		});
 		return response.issues;
@@ -153,6 +179,12 @@ var Redmine = function() {
 			myself = response.user;
 		}
 		return myself;
+	};
+
+	this.project = function(project_id) {
+		logger.debug('project:', project_id);
+		var response = this.request('GET', 'projects/' + project_id + '.json');
+		return response.project;
 	};
 
 	var projects = null;

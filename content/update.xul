@@ -14,20 +14,25 @@
 		<rows>
 			<row align="center">
 				<label value="対象チケット" />
-				<box>
-					<label id="ticket_title" value="" />
-					<textbox id="id" class="ticket_data" hidden="true" />
-				</box>
+				<textbox id="ticket_title" value="" disabled="true" />
+				<textbox id="id" class="ticket_data" hidden="true" />
 			</row>
 			<row align="center">
 				<label value="ノート追記" />
 				<textbox id="notes" multiline="true" rows="10" class="ticket_data" />
 			</row>
 			<row align="center">
-				<label value="その他" />
-				<box>
-					<checkbox id="is_attachment" label="添付ファイルを含める" />
-				</box>
+				<label value="ファイル" />
+				<grid>
+					<columns>
+						<column flex="1" />
+						<column flex="8" />
+						<column flex="4" />
+					</columns>
+
+					<rows id="ticket_files">
+					</rows>
+				</grid>
 			</row>
 		</rows>
 	</grid>

@@ -1,51 +1,62 @@
-Components.utils.import("resource://gre/modules/Services.jsm");
-Components.utils.import("resource:///modules/gloda/mimemsg.js");
-
 Components.utils.import("resource://redthunderminebird/common.js");
 
 load("resource://redthunderminebird/preference.js", this);
 load("resource://redthunderminebird/redmine.js", this);
 load("resource://redthunderminebird/utility.js", this);
 
+var PAGE_UNIT = 10;
+var currentpage = 0;
+var message = window.arguments[0];
+
 function onLoad() {
 	//初期データ取得
-	var defdata = window.arguments[0];
-
-	//ディレクトリマッピング
-	var directorys = preference.getObject('directories');
-	var folder = window.opener.gFolderDisplay.displayedFolder.URI;
-	var project_id = directorys[folder];
-	if (!project_id)
-		project_id = directorys[''];
-
-	//チケットループ
-	var cid = defdata.id;
-	var node = document.getElementById('id').childNodes[0];
-	var tickets = redmine.tickets(project_id, 50);
-	for ( var i = 0; i < tickets.length; i++)
-	{
-		//名前が似ているなら初期選択とする
-		if (defdata.id == 0 && cid == 0)
-		{
-			var as = tickets[i].subject.replace(/\[.*\]|\(.*\)|【.*】|re|fwd/gi, '');
-			var bs = defdata.subject.replace(/\[.*\]|【.*】|re|fwd/gi, '');
-			if (as.indexOf(bs) != -1 || bs.indexOf(as) != -1)
-			{
-				cid = tickets[i].id;
-			}
-		}
-		utility.appendMenuitem(node, tickets[i].id, '#' + tickets[i].id + ':' + tickets[i].subject);
-	}
-	defdata.id = cid;
+	var defdata = onMore();
 
 	//初期データ投入
 	var elements = document.getElementsByClassName('ticket_data');
-	for ( var i = 0; i < elements.length; i++)
+	utility.jsontoform(defdata, elements);
+}
+
+function onMore() {
+	try
 	{
-		var id = elements[i].getAttribute('id');
-		if (defdata[id] !== undefined)
-			elements[i].value = defdata[id];
+		//チケットループ
+		var defdata = message.toObject();
+		var cid = defdata.id;
+		var node = document.getElementById('ids');
+		var offset = currentpage++ * PAGE_UNIT;
+		var tickets = redmine.tickets(defdata.project_id, offset, PAGE_UNIT);
+		for ( var i = 0; i < tickets.length; i++)
+		{
+			//名前が似ているなら初期選択とする
+			if (defdata.id == 0 && cid == 0)
+			{
+				var as = tickets[i].subject.replace(/\[.*\]|\(.*\)|【.*】|re|fwd/gi, '');
+				var bs = defdata.subject.replace(/\[.*\]|【.*】|re|fwd/gi, '');
+				if (as.indexOf(bs) != -1 || bs.indexOf(as) != -1)
+				{
+					cid = tickets[i].id;
+				}
+			}
+			utility.appendListitem(node, tickets[i].id, utility.formatTicketSubject(tickets[i]));
+		}
+		node.scrollToIndex(offset);
+		defdata.id = cid;
+		return defdata;
 	}
+	catch (e)
+	{
+		logger.error(e);
+		window.opener.alert('プロジェクトが見つかりませんでした');
+		return close();
+	}
+}
+
+function onTicket() {
+	var id = document.getElementById('ids').value;
+	document.getElementById('id').value = id;
+	var ticket = redmine.ticket(id);
+	document.getElementById('description').value = ticket.description;
 }
 
 function onRefer() {
