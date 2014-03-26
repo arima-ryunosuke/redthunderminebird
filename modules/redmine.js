@@ -270,8 +270,8 @@ var Redmine = function() {
 		//キャッシュを殺す
 		myself = null;
 		projects = null;
-		members = null;
-		versions = null;
+		members = {};
+		versions = {};
 		trackers = null;
 	};
 };
