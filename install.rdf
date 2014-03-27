@@ -5,11 +5,11 @@ xmlns:em="http://www.mozilla.org/2004/em-rdf#">
 
 	<Description about="urn:mozilla:install-manifest">
 	
-		<em:id>redthunderminebird@headjapan.com</em:id>
+		<em:id>redthunderminebird@ryunosuke.arima</em:id>
 		<em:name>Redmine連携</em:name>
 		<em:version>1.0.0</em:version>
 		<em:description>コンテキストメニューでRedmineチケットを作成します</em:description>
-		<em:creator>konishi</em:creator>
+		<em:creator>ryunosuke</em:creator>
 		<em:type>2</em:type>
 		<em:optionsURL>chrome://redthunderminebird/content/options.xul</em:optionsURL>
 
