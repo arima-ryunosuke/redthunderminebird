@@ -118,35 +118,49 @@ var Redmine = function() {
 	this.create = function(ticket) {
 		logger.debug('create:', ticket);
 
-		//ファイルを登録してtokenを取得
-		ticket.uploads = [];
-		var files = ticket.files;
-		delete ticket.files;
-		for ( var i = 0; i < files.length; i++)
+		try
 		{
-			ticket.uploads.push(this.upload(files[i]));
-		}
+			//ファイルを登録してtokenを取得
+			ticket.uploads = [];
+			var files = ticket.files;
+			delete ticket.files;
+			for ( var i = 0; i < files.length; i++)
+			{
+				ticket.uploads.push(this.upload(files[i]));
+			}
 
-		return this.request('POST', 'issues.json', {
-			issue : ticket,
-		});
+			return this.request('POST', 'issues.json', {
+				issue : ticket,
+			});
+		}
+		catch (e)
+		{
+			return {};
+		}
 	};
 
 	this.update = function(ticket) {
 		logger.debug('update:', ticket);
 
-		//ファイルを登録してtokenを取得
-		ticket.uploads = [];
-		var files = ticket.files || [];
-		delete ticket.files;
-		for ( var i = 0; i < files.length; i++)
+		try
 		{
-			ticket.uploads.push(this.upload(files[i]));
-		}
+			//ファイルを登録してtokenを取得
+			ticket.uploads = [];
+			var files = ticket.files || [];
+			delete ticket.files;
+			for ( var i = 0; i < files.length; i++)
+			{
+				ticket.uploads.push(this.upload(files[i]));
+			}
 
-		return this.request('PUT', 'issues/' + ticket.id + '.json', {
-			issue : ticket,
-		});
+			return this.request('PUT', 'issues/' + ticket.id + '.json', {
+				issue : ticket,
+			});
+		}
+		catch (e)
+		{
+			throw e;
+		}
 	};
 
 	this.ticket = function(id) {
