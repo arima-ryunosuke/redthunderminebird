@@ -65,7 +65,7 @@ var Message = function(message, selection) {
 	};
 
 	this.getSubject = function() {
-		if(subject === null)
+		if (subject === null)
 			subject = this.message.mime2DecodedSubject;
 		return subject;
 	};
@@ -100,6 +100,16 @@ var Message = function(message, selection) {
 
 		result.project_id = project_id;
 		result.tracker_id = preference.getString('default_tracker');
+
+		if(preference.getBool('default_description'))
+		{
+			result.description = result.description.replace(/^(.*)(\r\n|\r|\n)/mg, function(m, m1, m2) {
+				if (m.charAt(0) == '>')
+					return m;
+				else
+					return m1 + '  ' + m2;
+			});
+		}
 
 		var due_length = parseInt(preference.getInt('default_due'));
 		if (!isNaN(due_length) && due_length > 0)
