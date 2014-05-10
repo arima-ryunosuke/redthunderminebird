@@ -89,8 +89,6 @@ var Message = function(message, selection) {
 		var result = {
 			id : this.getId(),
 			subject : this.getSubject(),
-			description : this.getBody(),
-			notes : this.getBody(),
 		};
 
 		var directorys = preference.getObject('directories');
@@ -101,15 +99,18 @@ var Message = function(message, selection) {
 		result.project_id = project_id;
 		result.tracker_id = preference.getString('default_tracker');
 
-		if(preference.getBool('default_description'))
+		var body = this.getBody();
+		if(body !== null && preference.getBool('default_description'))
 		{
-			result.description = result.description.replace(/^(.*)(\r\n|\r|\n)/mg, function(m, m1, m2) {
+			body = body.replace(/^(.*)(\r\n|\r|\n)/mg, function(m, m1, m2) {
 				if (m.charAt(0) == '>')
 					return m;
 				else
 					return m1 + '  ' + m2;
 			});
 		}
+		result.description = body;
+		result.notes = body;
 
 		var due_length = parseInt(preference.getInt('default_due'));
 		if (!isNaN(due_length) && due_length > 0)
