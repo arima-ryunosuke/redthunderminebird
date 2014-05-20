@@ -9,7 +9,7 @@ var message = window.arguments[0];
 function onLoad() {
 	//添付ファイル一覧
 	var files = message.getAttachments();
-	for ( var i = 0; i < files.length; i++)
+	for (var i = 0; i < files.length; i++)
 	{
 		var row = document.createElement('row');
 		var checkbox = document.createElement('checkbox');
@@ -44,6 +44,40 @@ function onLoad() {
 		window.opener.alert(bundle.GetStringFromName("message.notfoundreferedissue"));
 		return close();
 	}
+
+	onProject();
+}
+
+function onProject() {
+	//デフォルト設定用
+	var user = redmine.myself();
+	var project_id = message.getProjectId();
+
+	//プロジェクト存在確認
+	try
+	{
+		redmine.project(project_id);
+	}
+	catch (e)
+	{
+		logger.error(e);
+		window.opener.alert(bundle.GetStringFromName("message.notfoundproject"));
+		return close();
+	}
+
+	//担当者再構築
+	var node = document.getElementById('assigned_to_id').childNodes[0];
+	utility.removeChildren(node);
+	utility.appendMenuitem(node, "", bundle.GetStringFromName("value.nochange"));
+	utility.appendMenuitem(node, user.id, bundle.GetStringFromName("value.myselfname"));
+	var members = redmine.members(project_id);
+	for (var i = 0; i < members.length; i++)
+	{
+		if (user.id == members[i].user.id)
+			continue;
+		utility.appendMenuitem(node, members[i].user.id, members[i].user.name);
+	}
+	document.getElementById('assigned_to_id').value = "";
 }
 
 function onUpdate() {
@@ -59,7 +93,7 @@ function onUpdate() {
 	data.files = [];
 	var attachments = message.getAttachments();
 	var fileelems = document.getElementsByClassName('attachment_data');
-	for ( var i = 0; i < fileelems.length; i++)
+	for (var i = 0; i < fileelems.length; i++)
 	{
 		if (fileelems[i].checked)
 		{

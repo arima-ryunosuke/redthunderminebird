@@ -124,7 +124,7 @@ var Redmine = function() {
 			ticket.uploads = [];
 			var files = ticket.files;
 			delete ticket.files;
-			for ( var i = 0; i < files.length; i++)
+			for (var i = 0; i < files.length; i++)
 			{
 				ticket.uploads.push(this.upload(files[i]));
 			}
@@ -144,11 +144,15 @@ var Redmine = function() {
 
 		try
 		{
+			//空文字は「変更しない」とする
+			if (ticket.assigned_to_id === '')
+				delete ticket.assigned_to_id;
+
 			//ファイルを登録してtokenを取得
 			ticket.uploads = [];
 			var files = ticket.files || [];
 			delete ticket.files;
-			for ( var i = 0; i < files.length; i++)
+			for (var i = 0; i < files.length; i++)
 			{
 				ticket.uploads.push(this.upload(files[i]));
 			}
@@ -217,7 +221,7 @@ var Redmine = function() {
 			});
 
 			//fullnameプロパティを定義
-			for ( var i = 0; i < projects.length; i++)
+			for (var i = 0; i < projects.length; i++)
 			{
 				var project = projects[i];
 				projects[i].fullname = (project.parent !== undefined ? project.parent.name + '/' : '') + project.name;

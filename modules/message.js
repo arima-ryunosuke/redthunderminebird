@@ -80,6 +80,14 @@ var Message = function(message, selection) {
 			return body;
 		}
 	};
+	
+	this.getProjectId = function() {
+		var directorys = preference.getObject('directories');
+		var project_id = directorys[this.message.folder.URI];
+		if (!project_id)
+			project_id = directorys[''];
+		return project_id;
+	};
 
 	this.getAttachments = function() {
 		return attachments;
@@ -91,12 +99,7 @@ var Message = function(message, selection) {
 			subject : this.getSubject(),
 		};
 
-		var directorys = preference.getObject('directories');
-		var project_id = directorys[this.message.folder.URI];
-		if (!project_id)
-			project_id = directorys[''];
-
-		result.project_id = project_id;
+		result.project_id = this.getProjectId();
 		result.tracker_id = preference.getString('default_tracker');
 
 		var body = this.getBody();
