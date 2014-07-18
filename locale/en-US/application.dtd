@@ -28,6 +28,7 @@
 <!ENTITY dialog-create.subject-label "subject">
 <!ENTITY dialog-create.description-label "description">
 <!ENTITY dialog-create.assigned-label "assigned to (owner only)">
+<!ENTITY dialog-create.watcher-label "watcher to (owner only)">
 <!ENTITY dialog-create.version-label "fixed version">
 <!ENTITY dialog-create.period-label "period">
 <!ENTITY dialog-create.start-label "start date">

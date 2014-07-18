@@ -43,6 +43,19 @@
 				</menulist>
 			</row>
 			<row align="center">
+				<label value="&dialog-create.watcher-label;" />
+				<grid>
+					<columns>
+						<column flex="1" />
+						<column flex="8" />
+						<column flex="4" />
+					</columns>
+
+					<rows id="watcher_users">
+					</rows>
+				</grid>
+			</row>
+			<row align="center">
 				<label value="&dialog-create.version-label;" />
 				<menulist id="fixed_version_id" class="ticket_data">
 					<menupopup>
@@ -75,7 +88,7 @@
 			<row align="center">
 				<label value="&dialog-create.other-label;" />
 				<box>
-					<checkbox id="is_private" class="ticket_data" label="&dialog-create.private-label;" />
+					<checkbox id="is_private" class="ticket_data" label="&dialog-create.private-label;" value="true" />
 				</box>
 			</row>
 		</rows>

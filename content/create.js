@@ -81,6 +81,25 @@ function onProject() {
 	}
 	document.getElementById('assigned_to_id').value = user.id;
 
+	//ウォッチャー再構築
+	var node = document.getElementById('watcher_users');
+	utility.removeChildren(node);
+	for (var i = 0; i < members.length; i++)
+	{
+		var row = document.createElement('row');
+		var checkbox = document.createElement('checkbox');
+
+		checkbox.setAttribute('label', members[i].user.name);
+		checkbox.setAttribute('class', 'ticket_data array');
+		checkbox.setAttribute('style', 'padding:0px;margin:0px;');
+		checkbox.setAttribute('name', 'watcher_user_ids');
+		checkbox.setAttribute('value', members[i].user.id);
+
+		row.appendChild(checkbox);
+
+		node.appendChild(row);
+	}
+
 	//対象バージョン再構築
 	var node = document.getElementById('fixed_version_id').childNodes[0];
 	utility.removeChildren(node);

@@ -28,6 +28,7 @@
 <!ENTITY dialog-create.subject-label "題名">
 <!ENTITY dialog-create.description-label "説明">
 <!ENTITY dialog-create.assigned-label "担当者(管理者のみ)">
+<!ENTITY dialog-create.watcher-label "ウォッチャー(管理者のみ)">
 <!ENTITY dialog-create.version-label "対象バージョン">
 <!ENTITY dialog-create.period-label "期間">
 <!ENTITY dialog-create.start-label "開始日">
