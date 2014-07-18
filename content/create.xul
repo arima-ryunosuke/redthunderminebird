@@ -46,7 +46,6 @@
 				<label value="&dialog-create.watcher-label;" />
 				<grid>
 					<columns>
-						<column flex="1" />
 						<column flex="4" />
 						<column flex="4" />
 						<column flex="4" />
@@ -77,7 +76,6 @@
 				<label value="&dialog-create.file-label;" />
 				<grid>
 					<columns>
-						<column flex="1" />
 						<column flex="8" />
 						<column flex="4" />
 					</columns>

@@ -17,7 +17,6 @@ function onLoad() {
 
 		checkbox.setAttribute('label', files[i].name);
 		checkbox.setAttribute('class', 'attachment_data');
-		checkbox.setAttribute('style', 'padding:0px;margin:0px;');
 
 		label.setAttribute('value', utility.formatSize(files[i].size));
 

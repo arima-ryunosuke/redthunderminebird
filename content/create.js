@@ -33,7 +33,6 @@ function onLoad() {
 
 		checkbox.setAttribute('label', files[i].name);
 		checkbox.setAttribute('class', 'attachment_data');
-		checkbox.setAttribute('style', 'padding:0px;margin:0px;');
 
 		label.setAttribute('value', utility.formatSize(files[i].size));
 
@@ -96,7 +95,6 @@ function onProject() {
 
 		checkbox.setAttribute('label', members[i].user.name);
 		checkbox.setAttribute('class', 'ticket_data array');
-		checkbox.setAttribute('style', 'padding:0px;margin:0px;');
 		checkbox.setAttribute('name', 'watcher_user_ids');
 		checkbox.setAttribute('value', members[i].user.id);
 
