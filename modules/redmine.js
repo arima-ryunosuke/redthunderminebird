@@ -217,7 +217,7 @@ var Redmine = function() {
 			//識別子でフィルタ
 			var filter = preference.getString("filter_project").replace(/\s/g, '').split(',');
 			projects = projects.filter(function(project, i) {
-				return filter.indexOf(project.id) == -1;
+				return filter.indexOf('' + project.id) == -1;
 			});
 
 			//fullnameプロパティを定義
