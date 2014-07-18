@@ -47,7 +47,8 @@
 				<grid>
 					<columns>
 						<column flex="1" />
-						<column flex="8" />
+						<column flex="4" />
+						<column flex="4" />
 						<column flex="4" />
 					</columns>
 

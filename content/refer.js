@@ -26,7 +26,7 @@ function onMore() {
 		var node = document.getElementById('ids');
 		var offset = currentpage++ * PAGE_UNIT;
 		var tickets = redmine.tickets(defdata.project_id, offset, PAGE_UNIT);
-		for ( var i = 0; i < tickets.length; i++)
+		for (var i = 0; i < tickets.length; i++)
 		{
 			//名前が似ているなら初期選択とする
 			if (defdata.id == 0 && cid == 0)

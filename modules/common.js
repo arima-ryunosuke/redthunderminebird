@@ -26,7 +26,7 @@ var Logger = function(level) {
 			return;
 
 		var message = '';
-		for ( var i = 0; i < arguments.length; i++)
+		for (var i = 0; i < arguments.length; i++)
 		{
 			if (arguments[i] === undefined)
 				arguments[i] = typeof (arguments[i]);

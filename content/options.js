@@ -9,7 +9,7 @@ function _build() {
 	var holder = document.getElementById('redthunderminebird-default_tracker').childNodes[0];
 	utility.removeChildren(holder);
 	var trackers = redmine.trackers();
-	for ( var i = 0; i < trackers.length; i++)
+	for (var i = 0; i < trackers.length; i++)
 	{
 		utility.appendMenuitem(holder, trackers[i].id, trackers[i].name);
 	}
@@ -90,7 +90,7 @@ function _build() {
 	//設定値読み込み(マッピング系)
 	var directorys = preference.getObject('directories');
 	var elements = document.getElementsByClassName('directory_data');
-	for ( var i = 0; i < elements.length; i++)
+	for (var i = 0; i < elements.length; i++)
 	{
 		var name = elements[i].getAttribute('name');
 		if (directorys[name] !== undefined)
@@ -134,7 +134,7 @@ function onCommit() {
 	//設定値保存(マッピング系)
 	var directorys = {};
 	var elements = document.getElementsByClassName('directory_data');
-	for ( var i = 0; i < elements.length; i++)
+	for (var i = 0; i < elements.length; i++)
 	{
 		var name = elements[i].getAttribute('name');
 		var val = elements[i].value;

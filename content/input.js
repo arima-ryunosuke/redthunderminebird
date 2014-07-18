@@ -13,7 +13,7 @@ function onLoad() {
 	//アカウント一覧
 	var account_manager = Cc["@mozilla.org/messenger/account-manager;1"].getService(Ci.nsIMsgAccountManager);
 	var accounts = account_manager.accounts;
-	for ( var i = 0; i < accounts.length; i++)
+	for (var i = 0; i < accounts.length; i++)
 	{
 		var account = accounts.queryElementAt(i, Ci.nsIMsgAccount);
 		var value = account.incomingServer.rootFolder.URI;

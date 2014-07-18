@@ -12,7 +12,7 @@ var Utility = function() {
 		node.appendChild(menuitem);
 		return menuitem;
 	};
-	
+
 	this.appendListitem = function(node, value, label) {
 		var document = node.ownerDocument;
 		var listitem = document.createElement("listitem");
@@ -23,7 +23,7 @@ var Utility = function() {
 	};
 
 	this.removeChildren = function(node) {
-		for ( var i = node.childNodes.length - 1; i >= 0; i--)
+		for (var i = node.childNodes.length - 1; i >= 0; i--)
 		{
 			node.removeChild(node.childNodes[i]);
 		}
@@ -39,7 +39,7 @@ var Utility = function() {
 	};
 
 	this.jsontoform = function(json, elements) {
-		for ( var i = 0; i < elements.length; i++)
+		for (var i = 0; i < elements.length; i++)
 		{
 			var id = elements[i].getAttribute('id');
 			if (json[id] !== undefined)

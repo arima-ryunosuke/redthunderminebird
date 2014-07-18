@@ -10,7 +10,7 @@ function onLoad() {
 	//プロジェクト一覧
 	var projects = redmine.projects();
 	var node = document.getElementById('project_id').childNodes[0];
-	for ( var i = 0; i < projects.length; i++)
+	for (var i = 0; i < projects.length; i++)
 	{
 		utility.appendMenuitem(node, projects[i].id, projects[i].fullname);
 	}
@@ -18,14 +18,14 @@ function onLoad() {
 	//トラッカー一覧
 	var trackers = redmine.trackers();
 	var node = document.getElementById('tracker_id').childNodes[0];
-	for ( var i = 0; i < trackers.length; i++)
+	for (var i = 0; i < trackers.length; i++)
 	{
 		utility.appendMenuitem(node, trackers[i].id, trackers[i].name);
 	}
 
 	//添付ファイル一覧
 	var files = message.getAttachments();
-	for ( var i = 0; i < files.length; i++)
+	for (var i = 0; i < files.length; i++)
 	{
 		var row = document.createElement('row');
 		var checkbox = document.createElement('checkbox');
@@ -73,7 +73,7 @@ function onProject() {
 	utility.removeChildren(node);
 	utility.appendMenuitem(node, user.id, bundle.GetStringFromName("value.myselfname"));
 	var members = redmine.members(project_id);
-	for ( var i = 0; i < members.length; i++)
+	for (var i = 0; i < members.length; i++)
 	{
 		if (user.id == members[i].user.id)
 			continue;
@@ -84,9 +84,14 @@ function onProject() {
 	//ウォッチャー再構築
 	var node = document.getElementById('watcher_users');
 	utility.removeChildren(node);
+	var row = null;
 	for (var i = 0; i < members.length; i++)
 	{
-		var row = document.createElement('row');
+		if (i % 3 == 0)
+		{
+			row = document.createElement('row');
+			node.appendChild(row);
+		}
 		var checkbox = document.createElement('checkbox');
 
 		checkbox.setAttribute('label', members[i].user.name);
@@ -96,15 +101,13 @@ function onProject() {
 		checkbox.setAttribute('value', members[i].user.id);
 
 		row.appendChild(checkbox);
-
-		node.appendChild(row);
 	}
 
 	//対象バージョン再構築
 	var node = document.getElementById('fixed_version_id').childNodes[0];
 	utility.removeChildren(node);
 	var versions = redmine.versions(project_id);
-	for ( var i = 0; i < versions.length; i++)
+	for (var i = 0; i < versions.length; i++)
 	{
 		utility.appendMenuitem(node, versions[i].id, versions[i].name);
 	}
@@ -117,7 +120,7 @@ function onCreate() {
 	data.files = [];
 	var attachments = message.getAttachments();
 	var fileelems = document.getElementsByClassName('attachment_data');
-	for ( var i = 0; i < fileelems.length; i++)
+	for (var i = 0; i < fileelems.length; i++)
 	{
 		if (fileelems[i].checked)
 		{

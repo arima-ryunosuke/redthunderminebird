@@ -22,7 +22,7 @@ var Message = function(message, selection) {
 			subject = message.mime2DecodedSubject;
 			body = mimemessage.coerceBodyToPlaintext();
 			attachments = [];
-			for ( var i = 0; i < mimemessage.allAttachments.length; i++)
+			for (var i = 0; i < mimemessage.allAttachments.length; i++)
 			{
 				var attachment = mimemessage.allAttachments[i];
 
@@ -80,7 +80,7 @@ var Message = function(message, selection) {
 			return body;
 		}
 	};
-	
+
 	this.getProjectId = function() {
 		var directorys = preference.getObject('directories');
 		var project_id = directorys[this.message.folder.URI];
@@ -103,7 +103,7 @@ var Message = function(message, selection) {
 		result.tracker_id = preference.getString('default_tracker');
 
 		var body = this.getBody();
-		if(body !== null && preference.getBool('default_description'))
+		if (body !== null && preference.getBool('default_description'))
 		{
 			body = body.replace(/^(.*)(\r\n|\r|\n)/mg, function(m, m1, m2) {
 				if (m.charAt(0) == '>')
