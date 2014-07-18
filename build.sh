@@ -14,6 +14,8 @@ cp -r $CURRENT/modules $TEMP/modules
 cp -r $CURRENT/chrome.manifest $TEMP/chrome.manifest
 cp -r $CURRENT/install.rdf $TEMP/install.rdf
 
+rm -f $TEMP/defaults/preferences/prefs_develop.js
+sed -i -e "s%redthunderminebird-develop%redthunderminebird%g" $TEMP/install.rdf
 sed -i -e "s%var DEBUG = .*;%var DEBUG = false;%g" $TEMP/modules/common.js
 sed -i -e "s%var LOGLEVEL = .*;%var LOGLEVEL = 2;%g" $TEMP/modules/common.js
 

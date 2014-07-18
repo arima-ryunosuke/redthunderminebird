@@ -4,7 +4,7 @@ var EXPORTED_SYMBOLS = [ 'DEBUG', 'Cc', 'Ci', 'Cu', 'load', 'logger', 'log', 'bu
 var DEBUG = true;
 
 //ログレベル[1,2,3,4] = [error,warn,info,debug]
-var LOGLEVEL = 2;
+var LOGLEVEL = 4;
 
 //ショートカット
 var Cc = Components.classes;

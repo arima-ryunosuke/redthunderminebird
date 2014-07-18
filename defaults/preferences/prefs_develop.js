@@ -1,0 +1,9 @@
+pref("extensions.redthunderminebird_develop.redmine", "http://");
+pref("extensions.redthunderminebird_develop.apikey", "");
+pref("extensions.redthunderminebird_develop.account", "");
+pref("extensions.redthunderminebird_develop.directories", "{}");
+pref("extensions.redthunderminebird_develop.default_tracker", "");
+pref("extensions.redthunderminebird_develop.default_due", 7);
+pref("extensions.redthunderminebird_develop.default_description", true);
+pref("extensions.redthunderminebird_develop.filter_project", "");
+pref("extensions.redthunderminebird_develop.filter_directory", "");

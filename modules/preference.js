@@ -7,7 +7,8 @@ var Preference = function() {
 
 	var klass = Cc["@mozilla.org/preferences-service;1"];
 	var service = klass.getService(Ci.nsIPrefService);
-	var branch = service.getBranch("extensions.redthunderminebird.");
+	var suffix = DEBUG ? '_develop' : '';
+	var branch = service.getBranch("extensions.redthunderminebird" + suffix + ".");
 
 	this.getInt = function(key) {
 		logger.debug('getInt:', key);
