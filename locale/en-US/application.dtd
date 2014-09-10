@@ -21,6 +21,7 @@
 
 <!ENTITY dialog.ok-label "OK">
 <!ENTITY dialog.ng-label "cancel">
+<!ENTITY dialog.ref-label "reference">
 
 <!ENTITY dialog-create.title "create issue">
 <!ENTITY dialog-create.project-label "project">

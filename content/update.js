@@ -28,6 +28,8 @@ function onLoad() {
 
 	//初期データ設定
 	var defdata = message.toObject();
+	if(defdata.id == 0)
+		defdata.id = '';
 	var elements = document.getElementsByClassName('ticket_data');
 	utility.jsontoform(defdata, elements);
 
@@ -39,9 +41,6 @@ function onLoad() {
 	}
 	catch (e)
 	{
-		logger.error(e);
-		window.opener.alert(bundle.getLocalString("message.notfoundreferedissue"));
-		return close();
 	}
 
 	onProject();
@@ -79,10 +78,46 @@ function onProject() {
 	document.getElementById('assigned_to_id').value = "";
 }
 
+function onTicket() {
+	var id = document.getElementById('id').value;
+	var ticket_title = null;
+	try
+	{
+		var ticket = redmine.ticket(id);
+		ticket_title = utility.formatTicketSubject(ticket);
+	}
+	catch (e)
+	{
+		ticket_title = bundle.getLocalString("message.notfoundissue", id);
+	}
+
+	document.getElementById('ticket_title').value = ticket_title;
+}
+
+function onRefer() {
+	window.openDialog("chrome://redthunderminebird/content/refer.xul", "referDialog", "chrome,centerscreen,modal", message, function(ticket) {
+
+		document.getElementById('id').value = ticket.id;
+		// ↑でonchageは呼ばれない
+		document.getElementById('ticket_title').value = utility.formatTicketSubject(ticket);
+		return true;
+	});
+}
+
 function onUpdate() {
-	if (document.getElementById('id').value == 0)
+	var id = document.getElementById('id').value;
+	if (id == 0)
 	{
 		alert(bundle.getLocalString("message.notselectissue"));
+		return;
+	}
+	try
+	{
+		var ticket = redmine.ticket(id);
+	}
+	catch (e)
+	{
+		alert(bundle.getLocalString("message.notfoundissue", id));
 		return;
 	}
 

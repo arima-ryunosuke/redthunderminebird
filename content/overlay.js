@@ -129,6 +129,5 @@ window.addEventListener('load', function() {
 		var message = new Message(gFolderDisplay.selectedMessage, document.commandDispatcher.focusedWindow.getSelection());
 		var id = message.getId();
 		document.getElementById('ticket_open').setAttribute('disabled', id == 0);
-		document.getElementById('ticket_update').setAttribute('disabled', id == 0);
 	}, false);
 }, true);
