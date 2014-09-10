@@ -19,7 +19,7 @@
 						<label value="&dialog-refer.issue-label;" />
 						<textbox id="id" class="ticket_data" style="width:5em;text-align:right;" />
 					</hbox>
-					<listbox id="ids" rows="10" onselect="onTicket();" style="min-width:480px;" />
+					<listbox id="ids" rows="10" onselect="onTicket();" ondblclick="onRefer();" style="min-width:480px;"  />
 					<textbox id="description" multiline="true" rows="10" disabled="true" />
 					<button label="more" oncommand="onMore();" />
 				</vbox>
