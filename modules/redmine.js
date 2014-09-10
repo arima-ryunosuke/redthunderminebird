@@ -4,9 +4,12 @@ Components.utils.import("resource://redthunderminebird/common.js");
 
 load("resource://redthunderminebird/preference.js", this);
 load("resource://redthunderminebird/utility.js", this);
+load("resource://redthunderminebird/cacher.js", this);
 
 var Redmine = function() {
 	logger.debug('Redmine constractor');
+
+	var self = this;
 
 	this.request = function(method, path, data, type) {
 		logger.debug('request:', method, path);
@@ -167,14 +170,6 @@ var Redmine = function() {
 		}
 	};
 
-	this.ticket = function(id) {
-		logger.debug('ticket:', id);
-
-		//取得
-		var response = this.request('GET', 'issues/' + id + '.json');
-		return response.issue;
-	};
-
 	this.tryTicket = function(id) {
 		try
 		{
@@ -186,44 +181,51 @@ var Redmine = function() {
 		}
 	};
 
+	this.ticket = function(id) {
+		logger.debug('ticket:', id);
+
+		var response = cacher.getorset('redmine:ticket:' + id, function() {
+			return self.request('GET', 'issues/' + id + '.json');
+		});
+		return response.issue;
+	};
+
 	this.tickets = function(project_id, offset, limit) {
 		logger.debug('tickets:', project_id, offset, limit);
 
-		//取得
-		var response = this.request('GET', 'projects/' + project_id + '/issues.json', {
-			offset : offset,
-			limit : limit,
+		var response = cacher.getorset('redmine:tickets:' + project_id + ':' + (offset + '-' + limit), function() {
+			return self.request('GET', 'projects/' + project_id + '/issues.json', {
+				offset : offset,
+				limit : limit,
+			});
 		});
 		return response.issues;
 	};
 
-	var myself = null;
 	this.myself = function() {
 		logger.debug('myself');
 
-		if (myself === null)
-		{
-			//取得
-			var response = this.request('GET', 'users/current.json');
-			myself = response.user;
-		}
-		return myself;
+		var response = cacher.getorset('redmine:myself', function() {
+			return self.request('GET', 'users/current.json');
+		});
+		return response.user;
 	};
 
 	this.project = function(project_id) {
 		logger.debug('project:', project_id);
-		var response = this.request('GET', 'projects/' + project_id + '.json');
+
+		var response = cacher.getorset('redmine:project:' + project_id, function() {
+			return self.request('GET', 'projects/' + project_id + '.json');
+		});
 		return response.project;
 	};
 
-	var projects = null;
 	this.projects = function() {
 		logger.debug('projects');
-		if (projects === null)
-		{
-			//取得
-			var response = this.request('GET', 'projects.json');
-			projects = response.projects;
+
+		var projects = cacher.getorset('redmine:projects', function() {
+			var response = self.request('GET', 'projects.json');
+			var projects = response.projects;
 
 			//識別子でフィルタ
 			var filter = preference.getString("filter_project").replace(/\s/g, '').split(',');
@@ -242,66 +244,56 @@ var Redmine = function() {
 			projects.sort(function(a, b) {
 				return (a.fullname > b.fullname) ? 1 : -1;
 			});
-		}
+
+			return projects;
+		});
 		return projects;
 	};
 
-	var members = {};
 	this.members = function(project_id) {
 		logger.debug('members:', project_id);
-		if (members[project_id] === undefined)
+
+		//取得(権限の関係で例外が飛びやすい)
+		try
 		{
-			//取得(権限の関係で例外が飛びやすい)
-			try
-			{
-				var response = this.request('GET', 'projects/' + project_id + '/memberships.json');
-				members[project_id] = response.memberships;
-			}
-			catch (e)
-			{
-				//気休めに自分自身を入れておく
-				var myself = this.myself();
-				myself.name = myself.lastname;
-				members[project_id] = [ {
-					user : myself
-				} ];
-			}
+			var response = cacher.getorset('redmine:members:' + project_id, function() {
+				return self.request('GET', 'projects/' + project_id + '/memberships.json');
+			});
+			return response.memberships;
 		}
-		return members[project_id];
+		catch (e)
+		{
+			//気休めに自分自身を返す
+			var myself = this.myself();
+			myself.name = myself.lastname;
+			return [ {
+				user : myself
+			} ];
+		}
 	};
 
-	var versions = {};
 	this.versions = function(project_id) {
 		logger.debug('versions:', project_id);
-		if (versions[project_id] === undefined)
-		{
-			//取得
-			var response = this.request('GET', 'projects/' + project_id + '/versions.json');
-			versions[project_id] = response.versions;
-		}
-		return versions[project_id];
+
+		var response = cacher.getorset('redmine:version:' + project_id, function() {
+			return self.request('GET', 'projects/' + project_id + '/versions.json');
+		});
+		return response.versions;
 	};
 
-	var trackers = null;
 	this.trackers = function() {
 		logger.debug('trackers');
-		if (trackers === null)
-		{
-			//取得
-			var response = this.request('GET', 'trackers.json');
-			trackers = response.trackers;
-		}
-		return trackers;
+
+		var response = cacher.getorset('redmine:trackers', function() {
+			return self.request('GET', 'trackers.json');
+		});
+		return response.trackers;
 	};
 
 	this.recache = function() {
 		logger.debug('recache');
-		//キャッシュを殺す
-		myself = null;
-		projects = null;
-		members = {};
-		versions = {};
-		trackers = null;
+
+		cacher.removes(/^redmine:/);
 	};
 };
 
