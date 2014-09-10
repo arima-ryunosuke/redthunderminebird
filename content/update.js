@@ -28,19 +28,16 @@ function onLoad() {
 
 	//初期データ設定
 	var defdata = message.toObject();
-	if(defdata.id == 0)
+	if (defdata.id == 0)
 		defdata.id = '';
 	var elements = document.getElementsByClassName('ticket_data');
 	utility.jsontoform(defdata, elements);
 
 	//タイトル設定
-	try
+	var ticket = redmine.tryTicket(defdata.id);
+	if (Object.keys(ticket).length !== 0)
 	{
-		var ticket = redmine.ticket(defdata.id);
 		document.getElementById('ticket_title').value = utility.formatTicketSubject(ticket);
-	}
-	catch (e)
-	{
 	}
 
 	onProject();
@@ -80,16 +77,8 @@ function onProject() {
 
 function onTicket() {
 	var id = document.getElementById('id').value;
-	var ticket_title = null;
-	try
-	{
-		var ticket = redmine.ticket(id);
-		ticket_title = utility.formatTicketSubject(ticket);
-	}
-	catch (e)
-	{
-		ticket_title = bundle.getLocalString("message.notfoundissue", id);
-	}
+	var ticket = redmine.tryTicket(id);
+	var ticket_title = ticket.id ? utility.formatTicketSubject(ticket) : bundle.getLocalString("message.notfoundissue", id);
 
 	document.getElementById('ticket_title').value = ticket_title;
 }
@@ -106,16 +95,12 @@ function onRefer() {
 
 function onUpdate() {
 	var id = document.getElementById('id').value;
-	if (id == 0)
+	if (id == '')
 	{
 		alert(bundle.getLocalString("message.notselectissue"));
 		return;
 	}
-	try
-	{
-		var ticket = redmine.ticket(id);
-	}
-	catch (e)
+	if (Object.keys(redmine.tryTicket(id)).length === 0)
 	{
 		alert(bundle.getLocalString("message.notfoundissue", id));
 		return;

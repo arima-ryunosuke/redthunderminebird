@@ -54,9 +54,9 @@ function onMore() {
 
 function onTicket() {
 	var id = document.getElementById('ids').value;
+	var description = redmine.tryTicket(id).description || bundle.getLocalString("message.notfoundissue", id);
 	document.getElementById('id').value = id;
-	var ticket = redmine.ticket(id);
-	document.getElementById('description').value = ticket.description;
+	document.getElementById('description').value = description;
 }
 
 function onRefer() {
@@ -67,14 +67,8 @@ function onRefer() {
 		return;
 	}
 
-	var ticket = null;
-	try
-	{
-		ticket = redmine.ticket(newid);
-	}
-	catch (e)
-	{}
-	if (ticket === null)
+	var ticket = redmine.tryTicket(newid);
+	if (Object.keys(ticket).length === 0)
 	{
 		alert(bundle.getLocalString("message.notfoundissue", newid));
 		return;

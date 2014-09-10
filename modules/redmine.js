@@ -175,6 +175,17 @@ var Redmine = function() {
 		return response.issue;
 	};
 
+	this.tryTicket = function(id) {
+		try
+		{
+			return this.ticket(id);
+		}
+		catch (e)
+		{
+			return {};
+		}
+	};
+
 	this.tickets = function(project_id, offset, limit) {
 		logger.debug('tickets:', project_id, offset, limit);
 
