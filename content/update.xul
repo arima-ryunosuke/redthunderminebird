@@ -22,7 +22,7 @@
 						<column flex="1" />
 					</columns>
 
-					<rows id="ticket_files">
+					<rows>
 						<row>
 							<textbox id="id" class="ticket_data" onchange="onTicket();" style="text-align:right;width:40px;" />
 							<textbox id="ticket_title" value="" disabled="true" />
