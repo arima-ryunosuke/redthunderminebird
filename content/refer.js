@@ -67,7 +67,20 @@ function onRefer() {
 		return;
 	}
 
-	if (window.arguments[1](newid))
+	var ticket = null;
+	try
+	{
+		ticket = redmine.ticket(newid);
+	}
+	catch (e)
+	{}
+	if (ticket === null)
+	{
+		alert(bundle.GetStringFromName("message.notselectissue"));
+		return;
+	}
+
+	if (window.arguments[1](ticket))
 	{
 		close();
 	}

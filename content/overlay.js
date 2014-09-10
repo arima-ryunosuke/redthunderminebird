@@ -117,9 +117,9 @@ function onRefer() {
 	var message = new Message(gFolderDisplay.selectedMessage, document.commandDispatcher.focusedWindow.getSelection());
 
 	//関連付けダイアログを表示してチケット関連付け
-	window.openDialog("chrome://redthunderminebird/content/refer.xul", "referDialog", "chrome,centerscreen,modal", message, function(newid) {
+	window.openDialog("chrome://redthunderminebird/content/refer.xul", "referDialog", "chrome,centerscreen,modal", message, function(ticket) {
 
-		message.setId(parseInt(newid));
+		message.setId(parseInt(ticket.id));
 		return true;
 	});
 }
