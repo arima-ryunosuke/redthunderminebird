@@ -64,12 +64,11 @@
 			</row>
 			<row align="center">
 				<label value="&dialog-create.period-label;" />
-
 				<box align="center">
-					<label value="&dialog-create.start-label;" />
-					<datepicker id="start_date" type="popup" class="ticket_data" firstdayofweek="1" />
-					<label value="&dialog-create.due-label;" />
-					<datepicker id="due_date" type="popup" class="ticket_data" firstdayofweek="1" />
+					<checkbox id="start_date_enable" label="&dialog-create.start-label;" oncommand="onPeriod(this, 'start_date');" />
+					<datepicker id="start_date" type="popup" class="ticket_data" disabled="true" firstdayofweek="1" />
+					<checkbox id="due_date_enable" label="&dialog-create.due-label;" oncommand="onPeriod(this, 'due_date');" />
+					<datepicker id="due_date" type="popup" class="ticket_data" disabled="true" firstdayofweek="1" />
 				</box>
 			</row>
 			<row align="center">

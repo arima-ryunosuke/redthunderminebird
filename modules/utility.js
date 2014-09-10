@@ -56,28 +56,32 @@ var Utility = function() {
 		var result = {};
 		for (var i = 0; i < elements.length; i++)
 		{
-			var key = elements[i].getAttribute('name') || elements[i].getAttribute('id');
-			if (elements[i].tagName == "checkbox")
+			var elm = elements[i];
+			if (elm.disabled)
+				continue;
+
+			var key = elm.getAttribute('name') || elm.getAttribute('id');
+			if (elm.tagName == "checkbox")
 			{
-				if (elements[i].checked)
+				if (elm.checked)
 				{
-					if (elements[i].classList.contains('array'))
+					if (elm.classList.contains('array'))
 					{
 						if (result[key] === undefined)
 						{
 							result[key] = [];
 						}
-						result[key].push(elements[i].getAttribute('value'));
+						result[key].push(elm.getAttribute('value'));
 					}
 					else
 					{
-						result[key] = elements[i].getAttribute('value');
+						result[key] = elm.getAttribute('value');
 					}
 				}
 			}
 			else
 			{
-				result[key] = elements[i].value;
+				result[key] = elm.value;
 			}
 		}
 		return result;

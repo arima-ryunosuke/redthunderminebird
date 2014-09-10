@@ -50,8 +50,13 @@
 				</menulist>
 			</row>
 			<row align="center">
-				<label value="&dialog-update.due-label;" />
-				<datepicker id="due_date" type="popup" class="ticket_data" firstdayofweek="1" />
+				<label value="&dialog-update.period-label;" />
+                <box align="center">
+                    <checkbox id="start_date_enable" label="&dialog-update.start-label;" oncommand="onPeriod(this, 'start_date');" />
+                    <datepicker id="start_date" type="popup" class="ticket_data" disabled="true" firstdayofweek="1" />
+					<checkbox id="due_date_enable" label="&dialog-update.due-label;" oncommand="onPeriod(this, 'due_date');" />
+					<datepicker id="due_date" type="popup" class="ticket_data" disabled="true" firstdayofweek="1" />
+				</box>
 			</row>
 			<row align="center">
 				<label value="&dialog-update.file-label;" />

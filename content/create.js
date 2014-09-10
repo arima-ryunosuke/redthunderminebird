@@ -50,6 +50,10 @@ function onLoad() {
 	onProject();
 }
 
+function onPeriod(sender, target) {
+	document.getElementById(target).disabled = !sender.checked;
+};
+
 function onProject() {
 	//デフォルト設定用
 	var user = redmine.myself();
@@ -114,6 +118,12 @@ function onProject() {
 function onCreate() {
 	var elements = document.getElementsByClassName('ticket_data');
 	var data = utility.formtojson(elements);
+
+	//作成時は明示的に指定しないと現在日時が入ってしまうようだs
+	if (data.start_date === undefined)
+	{
+		data.start_date = '';
+	}
 
 	data.files = [];
 	var attachments = message.getAttachments();

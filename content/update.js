@@ -39,15 +39,17 @@ function onLoad() {
 	}
 
 	//フォーム設定
-	if (ticket.due_date)
-	{
-		defdata.due_date = ticket.due_date;
-	}
+	defdata.start_date = ticket.start_date;
+	defdata.due_date = ticket.due_date;
 	var elements = document.getElementsByClassName('ticket_data');
 	utility.jsontoform(defdata, elements);
 
 	onProject();
 }
+
+function onPeriod(sender, target) {
+	document.getElementById(target).disabled = !sender.checked;
+};
 
 function onProject() {
 	//デフォルト設定用

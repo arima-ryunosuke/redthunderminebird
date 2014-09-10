@@ -43,6 +43,8 @@
 <!ENTITY dialog-update.notes-label "notes">
 <!ENTITY dialog-update.assigned-label "assigned to (owner only)">
 <!ENTITY dialog-update.version-label "fixed version">
+<!ENTITY dialog-update.period-label "period">
+<!ENTITY dialog-update.start-label "start date">
 <!ENTITY dialog-update.due-label "due date">
 <!ENTITY dialog-update.file-label "file">
 
