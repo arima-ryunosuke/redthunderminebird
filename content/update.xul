@@ -43,6 +43,17 @@
 				</menulist>
 			</row>
 			<row align="center">
+				<label value="&dialog-update.version-label;" />
+				<menulist id="fixed_version_id" class="ticket_data">
+					<menupopup>
+					</menupopup>
+				</menulist>
+			</row>
+			<row align="center">
+				<label value="&dialog-update.due-label;" />
+				<datepicker id="due_date" type="popup" class="ticket_data" firstdayofweek="1" />
+			</row>
+			<row align="center">
 				<label value="&dialog-update.file-label;" />
 				<grid>
 					<columns>

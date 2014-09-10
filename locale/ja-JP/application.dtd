@@ -42,6 +42,8 @@
 <!ENTITY dialog-update.issue-label "対象チケット">
 <!ENTITY dialog-update.notes-label "ノート追記">
 <!ENTITY dialog-update.assigned-label "担当者(管理者のみ)">
+<!ENTITY dialog-update.version-label "対象バージョン">
+<!ENTITY dialog-update.due-label "期日">
 <!ENTITY dialog-update.file-label "ファイル">
 
 <!ENTITY dialog-refer.title "チケット関連付け">

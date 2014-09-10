@@ -42,6 +42,8 @@
 <!ENTITY dialog-update.issue-label "refered issue">
 <!ENTITY dialog-update.notes-label "notes">
 <!ENTITY dialog-update.assigned-label "assigned to (owner only)">
+<!ENTITY dialog-update.version-label "fixed version">
+<!ENTITY dialog-update.due-label "due date">
 <!ENTITY dialog-update.file-label "file">
 
 <!ENTITY dialog-refer.title "refer issue">

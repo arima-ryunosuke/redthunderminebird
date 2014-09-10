@@ -30,15 +30,21 @@ function onLoad() {
 	var defdata = message.toObject();
 	if (defdata.id == 0)
 		defdata.id = '';
-	var elements = document.getElementsByClassName('ticket_data');
-	utility.jsontoform(defdata, elements);
+	var ticket = redmine.tryTicket(defdata.id);
 
 	//タイトル設定
-	var ticket = redmine.tryTicket(defdata.id);
 	if (Object.keys(ticket).length !== 0)
 	{
 		document.getElementById('ticket_title').value = utility.formatTicketSubject(ticket);
 	}
+
+	//フォーム設定
+	if (ticket.due_date)
+	{
+		defdata.due_date = ticket.due_date;
+	}
+	var elements = document.getElementsByClassName('ticket_data');
+	utility.jsontoform(defdata, elements);
 
 	onProject();
 }
@@ -73,6 +79,15 @@ function onProject() {
 		utility.appendMenuitem(node, members[i].user.id, members[i].user.name);
 	}
 	document.getElementById('assigned_to_id').value = "";
+
+	//対象バージョン再構築
+	var node = document.getElementById('fixed_version_id').childNodes[0];
+	utility.removeChildren(node);
+	var versions = redmine.versions(project_id);
+	for (var i = 0; i < versions.length; i++)
+	{
+		utility.appendMenuitem(node, versions[i].id, versions[i].name);
+	}
 }
 
 function onTicket() {
