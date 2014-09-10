@@ -63,14 +63,14 @@ function onProject() {
 	catch (e)
 	{
 		logger.error(e);
-		window.opener.alert(bundle.GetStringFromName("message.notfoundproject"));
+		window.opener.alert(bundle.getLocalString("message.notfoundproject"));
 		return close();
 	}
 
 	//担当者再構築
 	var node = document.getElementById('assigned_to_id').childNodes[0];
 	utility.removeChildren(node);
-	utility.appendMenuitem(node, user.id, bundle.GetStringFromName("value.myselfname"));
+	utility.appendMenuitem(node, user.id, bundle.getLocalString("value.myselfname"));
 	var members = redmine.members(project_id);
 	for (var i = 0; i < members.length; i++)
 	{

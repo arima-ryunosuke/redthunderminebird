@@ -47,7 +47,7 @@ function onMore() {
 	catch (e)
 	{
 		logger.error(e);
-		window.opener.alert(bundle.GetStringFromName("message.notfoundproject"));
+		window.opener.alert(bundle.getLocalString("message.notfoundproject"));
 		return close();
 	}
 }
@@ -63,7 +63,7 @@ function onRefer() {
 	var newid = document.getElementById('id').value;
 	if (newid == 0)
 	{
-		alert(bundle.GetStringFromName("message.notselectissue"));
+		alert(bundle.getLocalString("message.notselectissue"));
 		return;
 	}
 
@@ -76,7 +76,7 @@ function onRefer() {
 	{}
 	if (ticket === null)
 	{
-		alert(bundle.GetStringFromName("message.notselectissue"));
+		alert(bundle.getLocalString("message.notfoundissue", newid));
 		return;
 	}
 

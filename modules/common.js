@@ -13,7 +13,29 @@ var Cu = Components.utils;
 
 //ロケール
 var bundle_service = Cc["@mozilla.org/intl/stringbundle;1"].getService(Ci.nsIStringBundleService);
-var bundle = bundle_service.createBundle("chrome://redthunderminebird/locale/application.properties");
+var bundle_string = bundle_service.createBundle("chrome://redthunderminebird/locale/application.properties");
+var bundle = {
+	GetStringFromName : function(name) {
+		return bundle_string.GetStringFromName(name);
+	},
+	getLocalString : function(name, args) {
+		var result = bundle_string.GetStringFromName(name);
+		if (args !== undefined)
+		{
+			if (!(args instanceof Array))
+			{
+				args = [ args ];
+			}
+			for (var i = 0; i < args.length; i++)
+			{
+				var regex = new RegExp('([^\\$])\\$' + (i + 1), 'g');
+				result = result.replace(regex, '$1' + args[i]);
+			}
+		}
+		result = result.replace(/\$\$/g, '$');
+		return result;
+	}
+};
 
 //ロガー
 var Logger = function(level) {

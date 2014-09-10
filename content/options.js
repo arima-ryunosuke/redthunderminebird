@@ -21,7 +21,7 @@ function _build() {
 	root_folder.QueryInterface(Ci.nsIMsgFolder);
 
 	//フォルダURI：フォルダ名を生成
-	var folders = JSON.parse('{"" : "' + bundle.GetStringFromName("value.defaultfolder") + '"}');
+	var folders = JSON.parse('{"" : "' + bundle.getLocalString("value.defaultfolder") + '"}');
 	var filter = new RegExp(preference.getString('filter_directory'), 'i');
 	var ignores = [ 'Archives', 'Drafts', 'Sent', 'Templates', 'Trash' ];
 	(function(parent, it) {
@@ -66,7 +66,7 @@ function _build() {
 		//デフォルトだったら特殊なselectboxになる
 		if (k !== '')
 		{
-			utility.appendMenuitem(menupopup, '', bundle.GetStringFromName("value.dependdefault"));
+			utility.appendMenuitem(menupopup, '', bundle.getLocalString("value.dependdefault"));
 		}
 
 		//プロジェクト分ループしてitemを追加

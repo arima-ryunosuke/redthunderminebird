@@ -40,7 +40,7 @@ function onLoad() {
 	catch (e)
 	{
 		logger.error(e);
-		window.opener.alert(bundle.GetStringFromName("message.notfoundreferedissue"));
+		window.opener.alert(bundle.getLocalString("message.notfoundreferedissue"));
 		return close();
 	}
 
@@ -60,15 +60,15 @@ function onProject() {
 	catch (e)
 	{
 		logger.error(e);
-		window.opener.alert(bundle.GetStringFromName("message.notfoundproject"));
+		window.opener.alert(bundle.getLocalString("message.notfoundproject"));
 		return close();
 	}
 
 	//担当者再構築
 	var node = document.getElementById('assigned_to_id').childNodes[0];
 	utility.removeChildren(node);
-	utility.appendMenuitem(node, "", bundle.GetStringFromName("value.nochange"));
-	utility.appendMenuitem(node, user.id, bundle.GetStringFromName("value.myselfname"));
+	utility.appendMenuitem(node, "", bundle.getLocalString("value.nochange"));
+	utility.appendMenuitem(node, user.id, bundle.getLocalString("value.myselfname"));
 	var members = redmine.members(project_id);
 	for (var i = 0; i < members.length; i++)
 	{
@@ -82,7 +82,7 @@ function onProject() {
 function onUpdate() {
 	if (document.getElementById('id').value == 0)
 	{
-		alert(bundle.GetStringFromName("message.notselectissue"));
+		alert(bundle.getLocalString("message.notselectissue"));
 		return;
 	}
 

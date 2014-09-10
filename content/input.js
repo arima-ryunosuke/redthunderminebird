@@ -35,7 +35,7 @@ function onCommit() {
 	var account = byid('redthunderminebird-account').value;
 	if (!account)
 	{
-		alert(bundle.GetStringFromName("message.notselectaccount"));
+		alert(bundle.getLocalString("message.notselectaccount"));
 		return;
 	}
 	//疎通確認
@@ -44,7 +44,7 @@ function onCommit() {
 	var result = redmine.ping(hostname, apikey);
 	if (!result)
 	{
-		alert(bundle.GetStringFromName("message.notaccessredmine"));
+		alert(bundle.getLocalString("message.notaccessredmine"));
 		return;
 	}
 
