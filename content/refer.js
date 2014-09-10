@@ -9,6 +9,9 @@ var currentpage = 0;
 var message = window.arguments[0];
 
 function onLoad() {
+	//初期設定
+	document.getElementById('ids').setAttribute('rows', PAGE_UNIT - 1);
+
 	//初期データ取得
 	var defdata = onMore();
 
@@ -26,6 +29,12 @@ function onMore() {
 		var node = document.getElementById('ids');
 		var offset = currentpage++ * PAGE_UNIT;
 		var tickets = redmine.tickets(defdata.project_id, offset, PAGE_UNIT);
+		if (tickets.length === 0)
+		{
+			window.opener.alert(bundle.getLocalString("message.nomoreissue"));
+			return defdata;
+		}
+
 		for (var i = 0; i < tickets.length; i++)
 		{
 			//名前が似ているなら初期選択とする
@@ -40,7 +49,6 @@ function onMore() {
 			}
 			utility.appendListitem(node, tickets[i].id, utility.formatTicketSubject(tickets[i]));
 		}
-		node.scrollToIndex(offset);
 		defdata.id = cid;
 		return defdata;
 	}
@@ -54,7 +62,10 @@ function onMore() {
 
 function onTicket() {
 	var id = document.getElementById('ids').value;
-	var description = redmine.tryTicket(id).description || bundle.getLocalString("message.notfoundissue", id);
+	var description = redmine.tryTicket(id).description;
+	if (description === undefined)
+		bundle.getLocalString("message.notfoundissue", id);
+
 	document.getElementById('id').value = id;
 	document.getElementById('description').value = description;
 }

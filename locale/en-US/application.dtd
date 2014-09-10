@@ -49,6 +49,7 @@
 <!ENTITY dialog-update.file-label "file">
 
 <!ENTITY dialog-refer.title "refer issue">
+<!ENTITY dialog-refer.more-label "fetch next 10 issues">
 <!ENTITY dialog-refer.issue-label "refered issue #">
 
 <!ENTITY dialog-complete.title "complete">

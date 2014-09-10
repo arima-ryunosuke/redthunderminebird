@@ -49,6 +49,7 @@
 <!ENTITY dialog-update.file-label "ファイル">
 
 <!ENTITY dialog-refer.title "チケット関連付け">
+<!ENTITY dialog-refer.more-label "次の10件を取得">
 <!ENTITY dialog-refer.issue-label "関連チケット #">
 
 <!ENTITY dialog-complete.title "完了">
