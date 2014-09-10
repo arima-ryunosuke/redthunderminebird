@@ -160,9 +160,14 @@ var Redmine = function() {
 				ticket.uploads.push(this.upload(files[i]));
 			}
 
-			return this.request('PUT', 'issues/' + ticket.id + '.json', {
+			var result = this.request('PUT', 'issues/' + ticket.id + '.json', {
 				issue : ticket,
 			});
+
+			//更新したらキャッシュも消す
+			cacher.remove('redmine:ticket:' + ticket.id);
+
+			return result;
 		}
 		catch (e)
 		{
