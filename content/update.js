@@ -86,11 +86,13 @@ function onProject() {
 	//対象バージョン再構築
 	var node = document.getElementById('fixed_version_id').childNodes[0];
 	utility.removeChildren(node);
+	utility.appendMenuitem(node, "", bundle.getLocalString("value.nochange"));
 	var versions = redmine.versions(project_id);
 	for (var i = 0; i < versions.length; i++)
 	{
 		utility.appendMenuitem(node, versions[i].id, versions[i].name);
 	}
+	document.getElementById('fixed_version_id').value = "";
 }
 
 function onTicket() {
