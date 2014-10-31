@@ -39,6 +39,7 @@ function onLoad() {
 	}
 
 	//フォーム設定
+	defdata.description = ticket.description;
 	defdata.start_date = ticket.start_date;
 	defdata.due_date = ticket.due_date;
 	var elements = document.getElementsByClassName('ticket_data');
@@ -106,6 +107,7 @@ function onRefer() {
 		document.getElementById('id').value = ticket.id;
 		// ↑でonchageは呼ばれない
 		document.getElementById('ticket_title').value = utility.formatTicketSubject(ticket);
+		document.getElementById('description').value = ticket.description;
 		return true;
 	});
 }

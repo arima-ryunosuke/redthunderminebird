@@ -32,6 +32,10 @@
 				</grid>
 			</row>
 			<row align="center">
+				<label value="&dialog-create.description-label;" />
+				<textbox id="description" multiline="true" rows="10" class="ticket_data" />
+			</row>
+			<row align="center">
 				<label value="&dialog-update.notes-label;" />
 				<textbox id="notes" multiline="true" rows="10" class="ticket_data" />
 			</row>
