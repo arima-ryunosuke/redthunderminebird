@@ -74,6 +74,7 @@ function onProject() {
 	//担当者再構築
 	var node = document.getElementById('assigned_to_id').childNodes[0];
 	utility.removeChildren(node);
+	utility.appendMenuitem(node, "", "");
 	utility.appendMenuitem(node, user.id, bundle.getLocalString("value.myselfname"));
 	var members = redmine.members(project_id);
 	for (var i = 0; i < members.length; i++)
@@ -82,7 +83,16 @@ function onProject() {
 			continue;
 		utility.appendMenuitem(node, members[i].user.id, members[i].user.name);
 	}
-	document.getElementById('assigned_to_id').value = user.id;
+
+	//対象バージョン再構築
+	var node = document.getElementById('fixed_version_id').childNodes[0];
+	utility.removeChildren(node);
+	utility.appendMenuitem(node, "", "");
+	var versions = redmine.versions(project_id);
+	for (var i = 0; i < versions.length; i++)
+	{
+		utility.appendMenuitem(node, versions[i].id, versions[i].name);
+	}
 
 	//ウォッチャー再構築
 	var node = document.getElementById('watcher_users');
@@ -103,15 +113,6 @@ function onProject() {
 		checkbox.setAttribute('value', members[i].user.id);
 
 		row.appendChild(checkbox);
-	}
-
-	//対象バージョン再構築
-	var node = document.getElementById('fixed_version_id').childNodes[0];
-	utility.removeChildren(node);
-	var versions = redmine.versions(project_id);
-	for (var i = 0; i < versions.length; i++)
-	{
-		utility.appendMenuitem(node, versions[i].id, versions[i].name);
 	}
 }
 

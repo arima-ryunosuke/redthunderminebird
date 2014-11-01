@@ -39,6 +39,8 @@ function onLoad() {
 	}
 
 	//フォーム設定
+	defdata.assigned_to_id = ticket.assigned_to ? ticket.assigned_to.id : "";
+	defdata.fixed_version_id = ticket.fixed_version ? ticket.fixed_version.id : "";
 	defdata.description = ticket.description;
 	defdata.start_date = ticket.start_date;
 	defdata.due_date = ticket.due_date;
@@ -71,8 +73,9 @@ function onProject() {
 
 	//担当者再構築
 	var node = document.getElementById('assigned_to_id').childNodes[0];
+	var current = document.getElementById('assigned_to_id').value;
 	utility.removeChildren(node);
-	utility.appendMenuitem(node, "", bundle.getLocalString("value.nochange"));
+	utility.appendMenuitem(node, "", "");
 	utility.appendMenuitem(node, user.id, bundle.getLocalString("value.myselfname"));
 	var members = redmine.members(project_id);
 	for (var i = 0; i < members.length; i++)
@@ -81,18 +84,19 @@ function onProject() {
 			continue;
 		utility.appendMenuitem(node, members[i].user.id, members[i].user.name);
 	}
-	document.getElementById('assigned_to_id').value = "";
+	document.getElementById('assigned_to_id').value = current;
 
 	//対象バージョン再構築
 	var node = document.getElementById('fixed_version_id').childNodes[0];
+	var current = document.getElementById('fixed_version_id').value;
 	utility.removeChildren(node);
-	utility.appendMenuitem(node, "", bundle.getLocalString("value.nochange"));
+	utility.appendMenuitem(node, "", "");
 	var versions = redmine.versions(project_id);
 	for (var i = 0; i < versions.length; i++)
 	{
 		utility.appendMenuitem(node, versions[i].id, versions[i].name);
 	}
-	document.getElementById('fixed_version_id').value = "";
+	document.getElementById('fixed_version_id').value = current;
 }
 
 function onTicket() {
@@ -101,6 +105,9 @@ function onTicket() {
 	var ticket_title = ticket.id ? utility.formatTicketSubject(ticket) : bundle.getLocalString("message.notfoundissue", id);
 
 	document.getElementById('ticket_title').value = ticket_title;
+	document.getElementById('description').value = ticket.description ? ticket.description : "";
+	document.getElementById('assigned_to_id').value = ticket.assigned_to ? ticket.assigned_to.id : "";
+	document.getElementById('fixed_version_id').value = ticket.fixed_version ? ticket.fixed_version.id : "";
 }
 
 function onRefer() {
@@ -109,7 +116,9 @@ function onRefer() {
 		document.getElementById('id').value = ticket.id;
 		// ↑でonchageは呼ばれない
 		document.getElementById('ticket_title').value = utility.formatTicketSubject(ticket);
-		document.getElementById('description').value = ticket.description;
+		document.getElementById('description').value = ticket.description ? ticket.description : "";
+		document.getElementById('assigned_to_id').value = ticket.assigned_to ? ticket.assigned_to.id : "";
+		document.getElementById('fixed_version_id').value = ticket.fixed_version ? ticket.fixed_version.id : "";
 		return true;
 	});
 }

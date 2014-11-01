@@ -147,12 +147,6 @@ var Redmine = function() {
 
 		try
 		{
-			//空文字は「変更しない」とする
-			if (ticket.assigned_to_id === '')
-				delete ticket.assigned_to_id;
-			if (ticket.fixed_version_id === '')
-				delete ticket.fixed_version_id;
-
 			//ファイルを登録してtokenを取得
 			ticket.uploads = [];
 			var files = ticket.files || [];
