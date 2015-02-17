@@ -277,9 +277,17 @@ var Redmine = function() {
 		logger.debug('versions:', project_id);
 
 		var response = cacher.getorset('redmine:version:' + project_id, function() {
-			return self.request('GET', 'projects/' + project_id + '/versions.json');
+			var response = self.request('GET', 'projects/' + project_id + '/versions.json');
+			var versions = response.versions;
+
+			// ステータスでフィルタ
+			versions = versions.filter(function(version, i) {
+				return version.status === 'open';
+			});
+
+			return versions;
 		});
-		return response.versions;
+		return response;
 	};
 
 	this.trackers = function() {
