@@ -25,6 +25,7 @@ function onLoad() {
 	byid('redthunderminebird-redmine').value = preference.getString('redmine');
 	byid('redthunderminebird-apikey').value = preference.getString('apikey');
 	byid('redthunderminebird-account').value = preference.getString('account');
+	byid('redthunderminebird-target_project').value = preference.getString('target_project');
 	byid('redthunderminebird-filter_project').value = preference.getString('filter_project');
 	byid('redthunderminebird-filter_directory').value = preference.getString('filter_directory');
 
@@ -52,6 +53,7 @@ function onCommit() {
 	preference.setString('redmine', hostname);
 	preference.setString('apikey', apikey);
 	preference.setString('account', account);
+	preference.setString('target_project', byid('redthunderminebird-target_project').value);
 	preference.setString('filter_project', byid('redthunderminebird-filter_project').value);
 	preference.setString('filter_directory', byid('redthunderminebird-filter_directory').value);
 

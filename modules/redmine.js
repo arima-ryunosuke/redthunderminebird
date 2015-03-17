@@ -229,9 +229,14 @@ var Redmine = function() {
 			var projects = response.projects;
 
 			//識別子でフィルタ
-			var filter = preference.getString("filter_project").replace(/\s/g, '').split(',');
+			var target = utility.explode(preference.getString("target_project"), ',');
+			var filter = utility.explode(preference.getString("filter_project"), ',');
 			projects = projects.filter(function(project, i) {
-				return filter.indexOf('' + project.id) == -1;
+				var project_id = '' + project.id;
+
+				if (target.length > 0 && target.indexOf(project_id) == -1)
+					return false;
+				return filter.indexOf(project_id) == -1;
 			});
 
 			//fullnameプロパティを定義

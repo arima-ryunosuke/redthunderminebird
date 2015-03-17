@@ -16,6 +16,7 @@
 <!ENTITY options-basic.redmine-url-label "Redmine URL">
 <!ENTITY options-basic.redmine-key-label "REST API キー">
 <!ENTITY options-basic.account-label "アカウント">
+<!ENTITY options-basic.visible-project-label "表示プロジェクト(idをカンマ区切り)">
 <!ENTITY options-basic.invisible-project-label "非表示プロジェクト(idをカンマ区切り)">
 <!ENTITY options-basic.visible-folder-label "表示フォルダ(正規表現)">
 

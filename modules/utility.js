@@ -106,6 +106,17 @@ var Utility = function() {
 	this.formatTicketSubject = function(object) {
 		return '#' + object.id + ':' + object.subject;
 	};
+
+	this.explode = function(string, delimiter) {
+		string = string.replace(/\s/g, '');
+		if (string === '')
+			return [];
+
+		var parts = string.split(delimiter);
+		return parts.map(function(elem) {
+			return elem.replace(/\s/g, '');
+		});
+	};
 };
 
 var utility = new Utility();
