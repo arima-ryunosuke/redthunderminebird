@@ -32,8 +32,11 @@
 				</grid>
 			</row>
 			<row align="center">
-				<label value="&dialog-create.description-label;" />
-				<textbox id="description" multiline="true" rows="10" class="ticket_data" />
+				<hbox>
+					<label value="&dialog-create.description-label;" />
+					<label id="toggle-description" class="text-link" value="&dialog-update.toggle-description-label;" onclick="onToggleDescription('description')" />
+				</hbox>
+				<textbox id="description" multiline="true" rows="10" class="ticket_data" style="display:none;" />
 			</row>
 			<row align="center">
 				<label value="&dialog-update.notes-label;" />

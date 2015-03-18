@@ -17,7 +17,7 @@ function onCreate() {
 	var message = new Message(gFolderDisplay.selectedMessage, document.commandDispatcher.focusedWindow.getSelection());
 	message.encode(function() {
 		//作成ダイアログを表示してチケット作成
-		window.openDialog("chrome://redthunderminebird/content/create.xul", "createDialog", "chrome,centerscreen,modal", message, function(ticket) {
+		window.openDialog("chrome://redthunderminebird/content/create.xul", "createDialog", "chrome,centerscreen,modal,resizable", message, function(ticket) {
 			//チケット作成
 			var result = redmine.create(ticket);
 
@@ -73,7 +73,7 @@ function onUpdate() {
 	var message = new Message(gFolderDisplay.selectedMessage, document.commandDispatcher.focusedWindow.getSelection());
 	message.encode(function() {
 		//更新ダイアログを表示してチケット更新
-		window.openDialog("chrome://redthunderminebird/content/update.xul", "updateDialog", "chrome,centerscreen,modal", message, function(ticket) {
+		window.openDialog("chrome://redthunderminebird/content/update.xul", "updateDialog", "chrome,centerscreen,modal,resizable", message, function(ticket) {
 			//チケット更新
 			try
 			{
@@ -117,7 +117,7 @@ function onRefer() {
 	var message = new Message(gFolderDisplay.selectedMessage, document.commandDispatcher.focusedWindow.getSelection());
 
 	//関連付けダイアログを表示してチケット関連付け
-	window.openDialog("chrome://redthunderminebird/content/refer.xul", "referDialog", "chrome,centerscreen,modal", message, function(ticket) {
+	window.openDialog("chrome://redthunderminebird/content/refer.xul", "referDialog", "chrome,centerscreen,modal,resizable", message, function(ticket) {
 
 		message.setId(parseInt(ticket.id));
 		return true;

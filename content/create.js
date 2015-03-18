@@ -83,6 +83,7 @@ function onProject() {
 			continue;
 		utility.appendMenuitem(node, members[i].user.id, members[i].user.name);
 	}
+	document.getElementById('assigned_to_id').value = '';
 
 	//対象バージョン再構築
 	var node = document.getElementById('fixed_version_id').childNodes[0];
@@ -93,6 +94,7 @@ function onProject() {
 	{
 		utility.appendMenuitem(node, versions[i].id, versions[i].name);
 	}
+	document.getElementById('fixed_version_id').value = '';
 
 	//ウォッチャー再構築
 	var node = document.getElementById('watcher_users');
@@ -114,6 +116,8 @@ function onProject() {
 
 		row.appendChild(checkbox);
 	}
+
+	window.sizeToContent();
 }
 
 function onCreate() {

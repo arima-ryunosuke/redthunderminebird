@@ -54,6 +54,19 @@ function onPeriod(sender, target) {
 	document.getElementById(target).disabled = !sender.checked;
 };
 
+function onToggleDescription(target) {
+	var node = document.getElementById(target);
+	if (node.style.display === 'none')
+	{
+		node.style.display = '';
+	}
+	else
+	{
+		node.style.display = 'none';
+	}
+	window.sizeToContent();
+}
+
 function onProject() {
 	//デフォルト設定用
 	var user = redmine.myself();
@@ -97,6 +110,8 @@ function onProject() {
 		utility.appendMenuitem(node, versions[i].id, versions[i].name);
 	}
 	document.getElementById('fixed_version_id').value = current;
+
+	window.sizeToContent();
 }
 
 function onTicket() {
