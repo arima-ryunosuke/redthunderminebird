@@ -29,11 +29,10 @@ function onCreate() {
 				//@todo apiキーを付加しないとリダイレクトされてしまう
 				//・オープン時のクッキー指定ミス？
 				//・redmineのバグ？（http://www.redmine.org/issues/15926）
-				var url = message.getUrl();
 				window.openDialog("chrome://redthunderminebird/content/complete.xul", "completeDialog", "chrome,centerscreen,modal", {
 					title : bundle.getLocalString("message.issuecreated"),
-					label : url,
-					value : url + '?key=' + preference.getString("apikey"),
+					label : redmine.getTicketUrl(result.issue.id),
+					value : redmine.getTicketUrl(result.issue.id, true),
 				});
 
 				return true;
@@ -82,11 +81,10 @@ function onUpdate() {
 
 				message.setId(parseInt(ticket.id));
 
-				var url = message.getUrl();
 				window.openDialog("chrome://redthunderminebird/content/complete.xul", "completeDialog", "chrome,centerscreen,modal", {
 					title : bundle.getLocalString("message.issueupdated"),
-					label : url,
-					value : url + '?key=' + preference.getString("apikey"),
+					label : redmine.getTicketUrl(ticket.id),
+					value : redmine.getTicketUrl(ticket.id, true),
 				});
 
 				return true;
@@ -107,8 +105,7 @@ function onOpen() {
 
 	if (message.getId() != 0)
 	{
-		var url = message.getUrl() + '?key=' + preference.getString("apikey");
-		openURL(url);
+		openURL(redmine.getTicketUrl(message.getId(), true));
 	}
 }
 

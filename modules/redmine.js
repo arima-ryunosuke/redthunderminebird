@@ -75,6 +75,24 @@ var Redmine = function() {
 		return result;
 	};
 
+	this.getTicketUrl = function(id, withApiKey) {
+		var url = preference.getString("redmine") + '/issues/' + id;
+		if (withApiKey)
+		{
+			url += '?key=' + preference.getString("apikey");
+		}
+		return url;
+	};
+
+	this.getProjectUrl = function(id, withApiKey) {
+		var url = preference.getString("redmine") + '/projects/' + id;
+		if (withApiKey)
+		{
+			url += '?key=' + preference.getString("apikey");
+		}
+		return url;
+	};
+
 	this.ping = function(redmine, apikey) {
 		//退避
 		var _redmine = preference.getString("redmine");

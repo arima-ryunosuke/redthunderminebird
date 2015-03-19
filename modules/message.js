@@ -47,12 +47,6 @@ var Message = function(message, selection) {
 		});
 	};
 
-	this.getUrl = function() {
-		var ticketid = this.getId();
-		var url = preference.getString("redmine") + '/issues/' + ticketid;
-		return url;
-	};
-
 	this.getId = function() {
 		var thread = this.dbview.GetMsgHdrForKey(this.message.threadId);
 		var ticketid = thread.getUint32Property('redmineticketid');
