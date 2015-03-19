@@ -8,6 +8,7 @@
 <!ENTITY options.defaults-label "入力のデフォルト値">
 <!ENTITY options.tracker-label "トラッカー">
 <!ENTITY options.duelength-label "期日(日)">
+<!ENTITY options.subject-label "件名から除外する正規表現">
 <!ENTITY options.description-label "説明">
 <!ENTITY options.description-markdown-label "改行を保つ(改行にスペース2つを付加する)※Markdownプラグイン向け">
 <!ENTITY options.folder-mapping-label "フォルダマッピング">

@@ -93,6 +93,13 @@ var Message = function(message, selection) {
 			subject : this.getSubject(),
 		};
 
+		var exp = preference.getString('default_subject');
+		if (exp.length > 0)
+		{
+			var regexp = new RegExp(exp, 'gi');
+			result.subject = result.subject.replace(regexp, '');
+		}
+
 		result.project_id = this.getProjectId();
 		result.tracker_id = preference.getString('default_tracker');
 

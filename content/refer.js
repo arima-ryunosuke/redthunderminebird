@@ -35,13 +35,20 @@ function onMore() {
 			return defdata;
 		}
 
+		var exp = preference.getString('default_subject');
+		var regexp = new RegExp(exp, 'gi');
 		for (var i = 0; i < tickets.length; i++)
 		{
 			//名前が似ているなら初期選択とする
 			if (defdata.id == 0 && cid == 0)
 			{
-				var as = tickets[i].subject.replace(/\[.*\]|\(.*\)|【.*】|re|fwd/gi, '');
-				var bs = defdata.subject.replace(/\[.*\]|【.*】|re|fwd/gi, '');
+				var as = tickets[i].subject;
+				var bs = defdata.subject;
+				if (exp)
+				{
+					as = tickets[i].subject.replace(regexp, '');
+					bs = defdata.subject.replace(regexp, '');
+				}
 				if (as.indexOf(bs) != -1 || bs.indexOf(as) != -1)
 				{
 					cid = tickets[i].id;

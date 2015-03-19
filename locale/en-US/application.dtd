@@ -8,6 +8,7 @@
 <!ENTITY options.defaults-label "default values">
 <!ENTITY options.tracker-label "tracker">
 <!ENTITY options.duelength-label "due date (day)">
+<!ENTITY options.subject-label "regex to remove from subject">
 <!ENTITY options.description-label "description">
 <!ENTITY options.description-markdown-label "kepp break line">
 <!ENTITY options.folder-mapping-label "folder mapping">

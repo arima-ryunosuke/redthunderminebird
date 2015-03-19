@@ -85,6 +85,7 @@ function _build() {
 	//設定値読み込み(デフォルト系)
 	document.getElementById('redthunderminebird-default_tracker').value = preference.getString('default_tracker');
 	document.getElementById('redthunderminebird-default_due').value = preference.getInt('default_due');
+	document.getElementById('redthunderminebird-default_subject').value = preference.getString('default_subject');
 	document.getElementById('redthunderminebird-default_description').checked = preference.getBool('default_description');
 
 	//設定値読み込み(マッピング系)
@@ -129,6 +130,7 @@ function onCommit() {
 	//設定値保存(デフォルト系)
 	preference.setString('default_tracker', document.getElementById('redthunderminebird-default_tracker').value);
 	preference.setInt('default_due', document.getElementById('redthunderminebird-default_due').value);
+	preference.setString('default_subject', document.getElementById('redthunderminebird-default_subject').value);
 	preference.setBool('default_description', document.getElementById('redthunderminebird-default_description').checked);
 
 	//設定値保存(マッピング系)
