@@ -90,3 +90,13 @@ function onRefer() {
 		close();
 	}
 }
+
+function onOpen() {
+	var newid = document.getElementById('id').value;
+	if (newid == 0)
+	{
+		alert(bundle.getLocalString("message.notselectissue"));
+		return;
+	}
+	openURL(redmine.getTicketUrl(newid, true));
+}
