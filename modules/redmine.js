@@ -93,6 +93,22 @@ var Redmine = function() {
 		return url;
 	};
 
+	this.getCreationUrl = function(message) {
+		var url = preference.getString("redmine");
+		var project_id = message.getProjectId();
+		if (project_id !== '')
+		{
+			url += '/projects/' + project_id;
+		}
+		url += '/issues/new';
+		var object = message.toObject();
+		logger.debug('getCreationUrl:', object);
+		url += '?issue[subject]=' + encodeURIComponent(object.subject);
+		url += '&issue[description]=' + encodeURIComponent(object.description);
+		logger.debug('getCreationUrl:', url);
+		return url;
+	};
+
 	this.ping = function(redmine, apikey) {
 		//退避
 		var _redmine = preference.getString("redmine");

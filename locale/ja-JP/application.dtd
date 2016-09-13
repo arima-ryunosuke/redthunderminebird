@@ -1,3 +1,4 @@
+<!ENTITY contextmenu-webui.label "件名と本文でWeb画面を開く">
 <!ENTITY contextmenu-refer.label "チケットを関連付け">
 <!ENTITY contextmenu-create.label "チケットを作成">
 <!ENTITY contextmenu-update.label "チケットを更新">

@@ -1,3 +1,4 @@
+<!ENTITY contextmenu-webui.label "open web UI by subject and body">
 <!ENTITY contextmenu-refer.label "refer issue">
 <!ENTITY contextmenu-create.label "create issue">
 <!ENTITY contextmenu-update.label "update issue">

@@ -7,6 +7,7 @@
 	<script type="text/javascript" src="chrome://redthunderminebird/content/overlay.js" />
 
 	<popup id="mailContext">
+		<menuitem label="&contextmenu-webui.label;" id="ticket_webui" oncommand="onWebUI();" />
 		<menuitem label="&contextmenu-refer.label;" id="ticket_refer" oncommand="onRefer();" />
 		<menuitem label="&contextmenu-create.label;" id="ticket_create" oncommand="onCreate();" />
 		<menuitem label="&contextmenu-update.label;" id="ticket_update" oncommand="onUpdate();" />

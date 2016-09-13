@@ -121,6 +121,15 @@ function onRefer() {
 	});
 }
 
+function onWebUI() {
+	//メッセージから得られる初期データ
+	var message = new Message(gFolderDisplay.selectedMessage, document.commandDispatcher.focusedWindow.getSelection());
+	message.encode(function() {
+		//ブラウザで開く
+		utility.openBrowser(redmine.getCreationUrl(message));
+	});
+}
+
 window.addEventListener('load', function() {
 	document.getElementById('mailContext').addEventListener('popupshowing', function(e) {
 		var message = new Message(gFolderDisplay.selectedMessage, document.commandDispatcher.focusedWindow.getSelection());
