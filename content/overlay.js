@@ -105,7 +105,7 @@ function onOpen() {
 
 	if (message.getId() != 0)
 	{
-		openURL(redmine.getTicketUrl(message.getId(), true));
+		utility.openBrowser(redmine.getTicketUrl(message.getId(), true));
 	}
 }
 

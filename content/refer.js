@@ -105,5 +105,5 @@ function onOpen() {
 		alert(bundle.getLocalString("message.notselectissue"));
 		return;
 	}
-	openURL(redmine.getTicketUrl(newid, true));
+	utility.openBrowser(redmine.getTicketUrl(newid, true));
 }

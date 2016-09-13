@@ -1,5 +1,7 @@
 Components.utils.import("resource://redthunderminebird/common.js");
 
+load("resource://redthunderminebird/utility.js", this);
+
 function onLoad() {
 	var title = document.getElementById('redthunderminebird-title');
 	title.value = window.arguments[0].title;
@@ -9,5 +11,5 @@ function onLoad() {
 }
 
 function onTicket() {
-	openURL(window.arguments[0].value);
+	utility.openBrowser(window.arguments[0].value);
 };

@@ -117,6 +117,13 @@ var Utility = function() {
 			return elem.replace(/\s/g, '');
 		});
 	};
+
+	this.openBrowser = function(url) {
+		var extps = Cc["@mozilla.org/uriloader/external-protocol-service;1"].getService(Ci.nsIExternalProtocolService);
+		var ioservice = Cc["@mozilla.org/network/io-service;1"].getService(Ci.nsIIOService);
+		var uriToOpen = ioservice.newURI(url, null, null);
+		extps.loadURI(uriToOpen, null);
+	};
 };
 
 var utility = new Utility();
