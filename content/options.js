@@ -68,6 +68,11 @@ function _build() {
 		{
 			utility.appendMenuitem(menupopup, '', bundle.getLocalString("value.dependdefault"));
 		}
+		else
+		{
+			utility.appendMenuitem(menupopup, '', '');
+		}
+		menupopup.value = '';
 
 		//プロジェクト分ループしてitemを追加
 		for ( var i in projects)

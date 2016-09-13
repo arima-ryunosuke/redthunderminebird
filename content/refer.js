@@ -62,8 +62,8 @@ function onMore() {
 	catch (e)
 	{
 		logger.error(e);
-		window.opener.alert(bundle.getLocalString("message.notfoundproject"));
-		return close();
+		close();
+		return window.opener.alert(bundle.getLocalString("message.notfoundproject"));
 	}
 }
 

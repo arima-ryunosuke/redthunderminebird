@@ -59,6 +59,12 @@ function onProject() {
 	var user = redmine.myself();
 	var project_id = document.getElementById('project_id').value;
 
+	//デフォルトは何もしない
+	if (project_id === '')
+	{
+		return;
+	}
+
 	//プロジェクト存在確認
 	try
 	{
@@ -67,8 +73,8 @@ function onProject() {
 	catch (e)
 	{
 		logger.error(e);
-		window.opener.alert(bundle.getLocalString("message.notfoundproject"));
-		return close();
+		close();
+		return window.opener.alert(bundle.getLocalString("message.notfoundproject"));
 	}
 
 	//担当者再構築
@@ -123,6 +129,12 @@ function onProject() {
 function onCreate() {
 	var elements = document.getElementsByClassName('ticket_data');
 	var data = utility.formtojson(elements);
+
+	//プロジェクト未設定
+	if (data.project_id === '')
+	{
+		return window.opener.alert('project is not selected.');
+	}
 
 	//作成時は明示的に指定しないと現在日時が入ってしまうようだs
 	if (data.start_date === undefined)
