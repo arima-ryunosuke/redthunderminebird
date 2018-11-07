@@ -6,6 +6,7 @@ pref("extensions.redthunderminebird_develop.default_tracker", "");
 pref("extensions.redthunderminebird_develop.default_due", 7);
 pref("extensions.redthunderminebird_develop.default_subject", "((fwd:)|(re:))\\s?");
 pref("extensions.redthunderminebird_develop.default_description", true);
+pref("extensions.redthunderminebird_develop.default_upload_attachments", true);
 pref("extensions.redthunderminebird_develop.target_project", "");
 pref("extensions.redthunderminebird_develop.filter_project", "");
 pref("extensions.redthunderminebird_develop.filter_directory", "");
