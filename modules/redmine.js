@@ -1,6 +1,7 @@
 var EXPORTED_SYMBOLS = [ 'redmine' ];
 
 Components.utils.import("resource://redthunderminebird/common.js");
+Components.utils.importGlobalProperties(["XMLHttpRequest"]);
 
 load("resource://redthunderminebird/preference.js", this);
 load("resource://redthunderminebird/utility.js", this);
@@ -48,8 +49,8 @@ var Redmine = function() {
 		}
 
 		//リクエストを投げる
-		var request = Cc["@mozilla.org/xmlextras/xmlhttprequest;1"].createInstance();
-		try
+		var request = new XMLHttpRequest(Ci.nsIXMLHttpRequest);
+        try
 		{
 			logger.debug('request request:', url);
 
