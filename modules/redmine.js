@@ -260,8 +260,14 @@ var Redmine = function() {
 		logger.debug('projects');
 
 		var projects = cacher.getorset('redmine:projects', function() {
-			var response = self.request('GET', 'projects.json');
-			var projects = response.projects;
+			var projects = [];
+			var offset = 0;
+			var response;
+			do {
+				response = self.request('GET', 'projects.json?offset=' + offset);
+				projects = projects.concat(response.projects);
+				offset += (response.limit || 25);
+			} while (response.offset + response.limit <= response.total_count && response.projects.length > 0);
 
 			//識別子でフィルタ
 			var target = utility.explode(preference.getString("target_project"), ',');
@@ -269,9 +275,9 @@ var Redmine = function() {
 			projects = projects.filter(function(project, i) {
 				var project_id = '' + project.id;
 
-				if (target.length > 0 && target.indexOf(project_id) == -1)
+				if (target.length > 0 && target.indexOf(project_id) == -1 && target.indexOf(project.identifier) == -1)
 					return false;
-				return filter.indexOf(project_id) == -1;
+				return filter.indexOf(project_id) == -1 && filter.indexOf(project.identifier) == -1;
 			});
 
 			//fullnameプロパティを定義
