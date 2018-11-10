@@ -7,6 +7,14 @@ load("resource://redthunderminebird/utility.js", this);
 var message = window.arguments[0];
 
 function onLoad() {
+	//選択可能なステータス一覧
+	var issueStatuses = redmine.issueStatuses();
+	var node = document.getElementById('status_id').childNodes[0];
+	for (var i = 0; i < issueStatuses.length; i++)
+	{
+		utility.appendMenuitem(node, issueStatuses[i].id, issueStatuses[i].name);
+	}
+
 	//添付ファイル一覧
 	var files = message.getAttachments();
 	for (var i = 0; i < files.length; i++)
@@ -42,6 +50,7 @@ function onLoad() {
 	defdata.assigned_to_id = ticket.assigned_to ? ticket.assigned_to.id : "";
 	defdata.fixed_version_id = ticket.fixed_version ? ticket.fixed_version.id : "";
 	defdata.description = ticket.description;
+	defdata.status_id = ticket.status ? ticket.status.id : "";
 	defdata.start_date = ticket.start_date;
 	defdata.due_date = ticket.due_date;
 	var elements = document.getElementsByClassName('ticket_data');
@@ -114,13 +123,15 @@ function onProject() {
 	window.sizeToContent();
 }
 
-function onTicket() {
+function onTicket(ticket) {
 	var id = document.getElementById('id').value;
-	var ticket = redmine.tryTicket(id);
+	if (!ticket)
+		ticket = redmine.tryTicket(id);
 	var ticket_title = ticket.id ? utility.formatTicketSubject(ticket) : bundle.getLocalString("message.notfoundissue", id);
 
 	document.getElementById('ticket_title').value = ticket_title;
 	document.getElementById('description').value = ticket.description ? ticket.description : "";
+	document.getElementById('status_id').value = ticket.status ? ticket.status.id : "";
 	document.getElementById('assigned_to_id').value = ticket.assigned_to ? ticket.assigned_to.id : "";
 	document.getElementById('fixed_version_id').value = ticket.fixed_version ? ticket.fixed_version.id : "";
 }
@@ -130,10 +141,7 @@ function onRefer() {
 
 		document.getElementById('id').value = ticket.id;
 		// ↑でonchageは呼ばれない
-		document.getElementById('ticket_title').value = utility.formatTicketSubject(ticket);
-		document.getElementById('description').value = ticket.description ? ticket.description : "";
-		document.getElementById('assigned_to_id').value = ticket.assigned_to ? ticket.assigned_to.id : "";
-		document.getElementById('fixed_version_id').value = ticket.fixed_version ? ticket.fixed_version.id : "";
+		onTicket(ticket);
 		return true;
 	});
 }
