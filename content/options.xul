@@ -6,13 +6,11 @@
 
 	<script type="text/javascript" src="chrome://redthunderminebird/content/options.js" />
 
-	<prefpane>
-		<button label="&options.basic-label;" oncommand="onRedmine();" style="width:80px;" />
-	</prefpane>
+	<button label="&options.basic-label;" oncommand="onRedmine();" style="width:80px;" />
 
 	<separator class="groove" />
 
-	<prefpane id="advance_option">
+	<vbox id="advance_option">
 		<label class="header" value="&options.defaults-label;" />
 		<grid>
 			<columns>
@@ -58,18 +56,17 @@
 		<separator class="groove" />
 
 		<label class="header" value="&options.folder-mapping-label;" />
-		<vbox>
-			<grid>
-				<columns>
-					<column flex="1" />
-					<column flex="8" />
-				</columns>
+		<grid>
+			<columns>
+				<column flex="1" />
+				<column flex="8" />
+			</columns>
 
-				<rows id="directory_rows" style="overflow:auto;max-height:460px;">
-				</rows>
-			</grid>
-		</vbox>
-	</prefpane>
+			<rows id="directory_rows" style="overflow:auto;max-height:460px;">
+			</rows>
+		</grid>
+
+	</vbox>
 
 	<hbox>
 		<button label="&dialog.reset-label;" oncommand="onReset();" />
