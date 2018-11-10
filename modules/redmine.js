@@ -17,7 +17,8 @@ var Redmine = function() {
 		//設定値と引数からURL生成
 		var hostname = preference.getString("redmine");
 		var apikey = preference.getString("apikey");
-		var url = hostname + '/' + path + '?key=' + apikey;
+		var delimiter = path.indexOf('?') < 0 ? '?' : '&';
+		var url = hostname + '/' + path + delimiter + 'key=' + apikey;
 
 		//コンテントタイプはデフォルトでjson
 		if (type === undefined)
@@ -250,7 +251,7 @@ var Redmine = function() {
 		logger.debug('project:', project_id);
 
 		var response = cacher.getorset('redmine:project:' + project_id, function() {
-			return self.request('GET', 'projects/' + project_id + '.json');
+			return self.request('GET', 'projects/' + project_id + '.json?include=trackers');
 		});
 		return response.project;
 	};
@@ -329,13 +330,20 @@ var Redmine = function() {
 		return response;
 	};
 
-	this.trackers = function() {
-		logger.debug('trackers');
-
-		var response = cacher.getorset('redmine:trackers', function() {
-			return self.request('GET', 'trackers.json');
-		});
-		return response.trackers;
+	this.trackers = function(project_id) {
+		if (project_id)
+		{
+			logger.debug('trackers (project=' + project_id + ')');
+			return this.project(project_id).trackers;
+		}
+		else
+		{
+			logger.debug('trackers ');
+			const response = cacher.getorset('redmine:trackers', function() {
+				return self.request('GET', 'trackers.json');
+			});
+			return response.trackers;
+		}
 	};
 
 	this.issueStatuses = function() {
