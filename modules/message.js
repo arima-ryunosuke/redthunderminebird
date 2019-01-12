@@ -116,6 +116,8 @@ var Message = function(message, selection) {
 		result.description = body;
 		result.notes = body;
 
+		result.start_date = utility.formatDate(new Date(this.message.date / 1000));
+
 		var due_length = parseInt(preference.getInt('default_due'));
 		if (!isNaN(due_length) && due_length > 0)
 			result.due_date = utility.formatDate(new Date(), due_length);
